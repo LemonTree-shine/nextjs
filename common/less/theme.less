@@ -1,0 +1,57 @@
+//主色调
+@main-font-color:#007fff;
+
+//默认颜色
+@default-color:#71777c;
+
+//背景颜色
+@background-color:#f4f5f5;
+
+//标题颜色
+@title-color:#2e3135;
+
+//默认字体
+@font-family:"微软雅黑";
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+ul{
+    list-style-type: none;
+}
+body{
+    font-family: @font-family;
+}
+
+html{
+    //font-size: 100px;
+}
+
+a{
+    color:@default-color;
+    text-decoration: none;
+}
+a:hover{
+    color:@main-font-color;
+}
+
+a.active{
+    color:@main-font-color;
+}
+
+
+@import "/static/font-awesome/css/font-awesome.min.css";
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('/static/font-awesome/fonts/fontawesome-webfont.eot?v=4.7.0');
+    src: url('/static/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('/static/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('/static/font-awesome/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('/static/font-awesome/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('/static/font-awesome/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+
