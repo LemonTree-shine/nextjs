@@ -30,16 +30,18 @@ app.prepare().then(function(req,res){
 
 //处理路由请求等问题
 function startServer(req,res){
+
+    /**
+     * 接口处理统一url加上/api 
+     * 为了避免页面和接口重复，接口最好统一使用post方法
+    */
+    server.use("/api",common);
+
     //next.js服务器渲染统一走默认配置
     server.get("*",function(req,res){
         handle(req,res);
     });
 
-    /**
-     * 接口处理统一url加上/api 
-     * 接口统一使用post方法
-    */
-    server.use("/api",common);
 
     //启动80端口
     server.listen("80",function(err){

@@ -17,7 +17,8 @@ export default class Index extends Component{
             <Nav pathname={this.props.pathname}/>
             <div className="common-content-box">
                 <div className="common-main-content">
-                    <i className="fa fa-car" style={{"color":"red"}}></i>
+                    {/* <i className="fa fa-car" style={{"color":"red"}}></i> */}
+                    <div className="list-title">文章列表</div>
                 </div>
                 <div className="common-main-tool"></div>
             </div>
