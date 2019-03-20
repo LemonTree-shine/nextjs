@@ -6,47 +6,5 @@
       "file": "static/chunks/0.js",
       "publicPath": "static/chunks/0.js"
     }
-  ],
-  "./nav.less": [
-    {
-      "id": "./component/nav/nav.less",
-      "name": "./component/nav/nav.less",
-      "file": "static/chunks/styles.js",
-      "publicPath": "static/chunks/styles.js"
-    }
-  ],
-  "undefined": [
-    {
-      "id": 2,
-      "name": null,
-      "file": "static/chunks/styles.js",
-      "publicPath": "static/chunks/styles.js"
-    },
-    {
-      "id": 3,
-      "name": null,
-      "file": "static/chunks/styles.js",
-      "publicPath": "static/chunks/styles.js"
-    },
-    {
-      "id": 4,
-      "name": null,
-      "file": "static/chunks/styles.js",
-      "publicPath": "static/chunks/styles.js"
-    },
-    {
-      "id": 5,
-      "name": null,
-      "file": "static/chunks/styles.js",
-      "publicPath": "static/chunks/styles.js"
-    }
-  ],
-  "../style/index.less": [
-    {
-      "id": "./style/index.less",
-      "name": "./style/index.less",
-      "file": "static/chunks/styles.js",
-      "publicPath": "static/chunks/styles.js"
-    }
   ]
 }
