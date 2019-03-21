@@ -7,7 +7,7 @@ var common = require("./server/router/common");
 //判断环境
 const dev = process.env.NODE_ENV !== 'production';
 
-console.log(process.env.NODE_ENV);
+console.log(dev);
 
 var app = next({dev});
 

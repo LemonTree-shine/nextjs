@@ -12,6 +12,11 @@ config.setPostConfig(common);
 //链接数据库
 let sqlPoor = config.connecMysql();
 
+common.use(function(req,res,next){
+    next();
+})
+
+
 common.use("/common/:id",function(req,res){
     //获取restful接口数据
     console.log(req.params);
@@ -27,30 +32,28 @@ common.use("/common/:id",function(req,res){
     
 });
 
+common.use("/getGithubCode",function(req,res){
+    res.redirect(`https://github.com/login/oauth/authorize?client_id=${config.githubData.client_id}`);
+});
+
 common.use("/getToken",function(req,res){
-    //获取restful接口数据
-    //console.log(req.params);
-    //获取post参数
-    //console.log(req.body);
-
-    console.log(url.parse(req.url).query)
-
+    //根据client_id获取code
     var code = querystring.parse(url.parse(req.url).query).code;
-    console.log(code);
 
-    var urla = `https://github.com/login/oauth/access_token?client_id=fff6005ce888eb378dbe&client_secret=ee9c4585898e161054d703a3ade74c73b07945f1&code=${code}`
-    request.post(urla,{},function(req,result){
-        console.log(1)
-        console.log(querystring.parse(result.body));
+    //获取access_token
+    var get_access_token_url = `https://github.com/login/oauth/access_token?client_id=${config.githubData.client_id}&client_secret=${config.githubData.client_secret}&code=${code}`
+    request.get(get_access_token_url,{},function(req,result){
         var resultData = querystring.parse(result.body);
-        request.post(`https://api.github.com/user?access_token=${resultData.access_token}`,{},function(req,result){
-            console.log(result.body)
-            res.send("asdasdasd");
+        //根据access_token获取用户信息
+        request.get(`https://api.github.com/user?access_token=${resultData.access_token}`,{
+            headers:{
+                'User-Agent':'LemonTree-shine'
+            }
+        },function(req,result){
+            //处理用户信息
+            res.redirect("/")
         });
-    });
-    //https://api.github.com/user?access_token=access_token
-
-    
+    });   
 })
 
 module.exports = common;
