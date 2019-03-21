@@ -11,7 +11,7 @@ import "../style/index.less";
 
 export default class Index extends Component{
     render(){
-        console.log(this.props.pathname);
+        // console.log(this.props.pathname);
         return <div>
             {/* 导航部分内容 */}
             <Nav pathname={this.props.pathname}/>
@@ -20,14 +20,15 @@ export default class Index extends Component{
                     {/* <i className="fa fa-car" style={{"color":"red"}}></i> */}
                     <div className="list-title">文章列表</div>
                 </div>
-                <div className="common-main-tool"></div>
+                <div className="common-main-tool">
+                    <a href="/api/getGithubCode">点我</a>
+                </div>
             </div>
         </div>
     }
 
     //异步获取数据，在服务端执行
     static async getInitialProps({ req }) {
-        
         return {
             pathname:req.url  //获取当前路径用于选中菜单
         }
@@ -41,5 +42,8 @@ export default class Index extends Component{
         // }).then(function(res){
         //     console.log(res.data.message)
         // })
+    }
+    login = ()=>{
+        axios.post("/api/getGithubCode")
     }
 }

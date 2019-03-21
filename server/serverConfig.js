@@ -29,3 +29,10 @@ exports.connecMysql  = function(){
         database        : 'bloc_center'
     });
 }
+
+//github登录id,密匙数据
+const githubData = {
+    client_id:"fff6005ce888eb378dbe",
+    client_secret:"69ed89f3689868f2acede3f62ea391c99317dd7d"
+}
+exports.githubData = githubData;
