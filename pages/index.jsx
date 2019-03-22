@@ -19,6 +19,13 @@ export default class Index extends Component{
                 <div className="common-main-content">
                     {/* <i className="fa fa-car" style={{"color":"red"}}></i> */}
                     <div className="list-title">文章列表</div>
+                    <div className="list-box">
+                        <div className="content-list">
+                            <div className="share-info"><span className="share-title-color">分享</span> · 西瓜太郎 · 4小时前 / javascript · node</div>
+                            <h3 className="title pt-5">Node.js开发微信公众号</h3>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div className="common-main-tool">
                     <a href="/api/getGithubCode">点我</a>

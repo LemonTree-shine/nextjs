@@ -1,5 +1,32 @@
 @import url(/static/font-awesome/css/font-awesome.min.css);
 @import url(/static/font-awesome/css/font-awesome.min.css);
+.share-title-color {
+  color: #ab00ff;
+}
+.pb-5 {
+  padding-bottom: 5px;
+}
+.pt-5 {
+  padding-top: 5px;
+}
+.pb-10 {
+  padding-bottom: 10px;
+}
+.pt-10 {
+  padding-top: 10px;
+}
+.pb-15 {
+  padding-bottom: 15px;
+}
+.pt-15 {
+  padding-top: 15px;
+}
+.pb-20 {
+  padding-bottom: 20px;
+}
+.pt-20 {
+  padding-top: 20px;
+}
 * {
   padding: 0;
   margin: 0;
@@ -45,15 +72,19 @@ body {
   max-width: 960px;
   height: 100%;
   margin: 0 auto;
-  display: flex;
 }
 .common-nav .nav-content .nav-logo {
   width: 120px;
   height: 100%;
+  float: left;
+}
+.common-nav .nav-content .nav-logo img {
+  display: block;
+  width: 100%;
 }
 .common-nav .nav-content .nav-list {
-  width: 840px;
   height: 100%;
+  float: left;
 }
 .common-nav .nav-content .nav-list ul li {
   display: inline-block;
@@ -66,7 +97,46 @@ body {
   width: 100%;
   height: 100%;
 }
+.common-nav .nav-content .login-info {
+  float: right;
+  height: 100%;
+}
+.common-nav .nav-content .login-info a {
+  display: block;
+  height: 100%;
+  line-height: 60px;
+  padding: 0 20px;
+  font-size: 18px;
+  color: #007fff;
+}
 
+.share-title-color {
+  color: #ab00ff;
+}
+.pb-5 {
+  padding-bottom: 5px;
+}
+.pt-5 {
+  padding-top: 5px;
+}
+.pb-10 {
+  padding-bottom: 10px;
+}
+.pt-10 {
+  padding-top: 10px;
+}
+.pb-15 {
+  padding-bottom: 15px;
+}
+.pt-15 {
+  padding-top: 15px;
+}
+.pb-20 {
+  padding-bottom: 20px;
+}
+.pt-20 {
+  padding-top: 20px;
+}
 * {
   padding: 0;
   margin: 0;
@@ -111,6 +181,18 @@ a.active {
   color: #2e3135;
   font-size: 17px;
   font-weight: 400;
+}
+.common-content-box .common-main-content .list-box .content-list {
+  padding: 12px 20px;
+  border-bottom: 1px solid #f4f5f5;
+  background: #ffffff;
+}
+.common-content-box .common-main-content .list-box .content-list:hover {
+  background: #fbfbfb;
+}
+.common-content-box .common-main-content .list-box .content-list .share-info {
+  font-size: 12px;
+  color: #71777c;
 }
 .common-content-box .common-main-tool {
   width: 240px;
