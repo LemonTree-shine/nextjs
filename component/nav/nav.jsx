@@ -10,7 +10,9 @@ export default class Nav extends Component{
         path = this.props.pathname
         return <div className="common-nav">
             <div className="nav-content">
-                <div className="nav-logo"></div>
+                <div className="nav-logo">
+                    
+                </div>
                 <div className="nav-list">
                     <ul>
                         {this.menu.map((list)=>{
@@ -23,6 +25,9 @@ export default class Nav extends Component{
                             </li>
                         })}
                     </ul>
+                </div>
+                <div className="login-info">
+                    <a href="javascript:;">登录</a>
                 </div>
             </div>
         </div>

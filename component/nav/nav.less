@@ -16,14 +16,20 @@ body{
         max-width: 960px;
         height: 100%;
         margin: 0 auto;
-        display: flex;
+        //display: flex;
         .nav-logo{
             width: 120px;
             height: 100%;
+            img{
+                display: block;
+                width:100%;
+            }
+            float: left;
         }
         .nav-list{
-            width: 840px;
+            //width: 840px;
             height: 100%;
+            float: left;
             ul{
                 li{
                     display: inline-block;
@@ -36,6 +42,18 @@ body{
                         height: 100%;
                     }
                 }
+            }
+        }
+        .login-info{
+            float: right;
+            height: 100%;
+            a{
+                display: block;
+                height: 100%;
+                line-height: 60px;
+                padding: 0 20px;
+                font-size: 18px;
+                color:@main-font-color;
             }
         }
     }
