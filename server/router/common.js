@@ -3,6 +3,8 @@ var config = require("../serverConfig");
 const querystring = require('querystring');
 const url = require('url');
 var request = require('request');
+const cookieParser = require("cookie-parser"); //读取cookie
+const session = require('express-session');
 
 var common = express.Router();
 
@@ -12,33 +14,41 @@ config.setPostConfig(common);
 //链接数据库
 let sqlPoor = config.connecMysql();
 
+//处理cookie
+common.use(cookieParser());
+
+//处理session
+common.use(session({
+    name:"Login_session",
+    secret:"chenze",
+    maxAge: 24*60 * 1000 * 30,
+    signed:true,
+}));
+
+//所有理由都走这边，以后便于做拦截处理
 common.use(function(req,res,next){
-    next();
+    next();   
 })
 
 
-common.use("/common/:id",function(req,res){
-    //获取restful接口数据
-    console.log(req.params);
-    //获取post参数
-    console.log(req.body);
-
-    
-    // sqlPoor.query("select * from user_info",function(err,result){
-    //     res.send(JSON.stringify(result));
-    // })
-
-    res.send("asdasdasd11");
-    
+common.use("/getUserInfo",function(req,res){
+    if(req.session.loginName){
+        res.send("登录了");
+    }else{
+        res.send("没有登录");
+    }
 });
 
+//获取githubCode
 common.use("/getGithubCode",function(req,res){
     res.redirect(`https://github.com/login/oauth/authorize?client_id=${config.githubData.client_id}`);
 });
 
-common.use("/getToken",function(req,res){
+//点击登录接口
+common.use("/getToken",function(requestBody,res){
+
     //根据client_id获取code
-    var code = querystring.parse(url.parse(req.url).query).code;
+    var code = querystring.parse(url.parse(requestBody.url).query).code;
 
     //获取access_token
     var get_access_token_url = `https://github.com/login/oauth/access_token?client_id=${config.githubData.client_id}&client_secret=${config.githubData.client_secret}&code=${code}`
@@ -51,7 +61,25 @@ common.use("/getToken",function(req,res){
             }
         },function(req,result){
             //处理用户信息
-            res.redirect("/")
+            var loginData = JSON.parse(result.body);
+            var insertSql = `INSERT INTO user_info ( login_name, avatar_url,html_url,name,company,blog,location,email,bio,public_repos,followers,created_at,login_time )
+                                VALUES 
+                            ( '${loginData.login}','${loginData.avatar_url}','${loginData.html_url}','${loginData.name}','${loginData.company}','${loginData.blog}','${loginData.location}','${loginData.email}','${loginData.bio}','${loginData.public_repos}','${loginData.followers}','${loginData.created_at}','${new Date().getTime()}' );`
+            
+            sqlPoor.query(insertSql,(err,data)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    //登录成功塞入一个session:loginName
+                    requestBody.session.loginName = loginData.login;
+
+                    //跳转到首页面
+                    res.redirect("/")
+                }
+            });
+
+            
+            
         });
     });   
 })
