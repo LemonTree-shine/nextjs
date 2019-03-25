@@ -11,7 +11,7 @@ export default class Nav extends Component{
         return <div className="common-nav">
             <div className="nav-content">
                 <div className="nav-logo">
-                    
+                    <img src="/static/image/logo5.png" alt=""/>
                 </div>
                 <div className="nav-list">
                     <ul>

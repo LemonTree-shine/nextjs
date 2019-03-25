@@ -3,6 +3,14 @@
 .share-title-color {
   color: #ab00ff;
 }
+.fa-icon {
+  color: #777;
+  margin-right: 12px;
+  font-size: 14px;
+}
+.fa-icon:hover {
+  color: #007fff;
+}
 .pb-5 {
   padding-bottom: 5px;
 }
@@ -26,6 +34,12 @@
 }
 .pt-20 {
   padding-top: 20px;
+}
+.t-l-c {
+  text-align: center;
+}
+.radio5 {
+  border-radius: 5px;
 }
 * {
   padding: 0;
@@ -74,13 +88,15 @@ body {
   margin: 0 auto;
 }
 .common-nav .nav-content .nav-logo {
-  width: 120px;
+  width: 60px;
   height: 100%;
+  background: #ccc;
   float: left;
 }
 .common-nav .nav-content .nav-logo img {
   display: block;
   width: 100%;
+  height: 100%;
 }
 .common-nav .nav-content .nav-list {
   height: 100%;
@@ -113,6 +129,14 @@ body {
 .share-title-color {
   color: #ab00ff;
 }
+.fa-icon {
+  color: #777;
+  margin-right: 12px;
+  font-size: 14px;
+}
+.fa-icon:hover {
+  color: #007fff;
+}
 .pb-5 {
   padding-bottom: 5px;
 }
@@ -136,6 +160,12 @@ body {
 }
 .pt-20 {
   padding-top: 20px;
+}
+.t-l-c {
+  text-align: center;
+}
+.radio5 {
+  border-radius: 5px;
 }
 * {
   padding: 0;
@@ -167,13 +197,14 @@ a.active {
 .common-content-box {
   max-width: 960px;
   margin: 0 auto;
-  margin-top: 80px;
-  display: flex;
+  padding-top: 80px;
+  padding-bottom: 20px;
+  overflow: hidden;
 }
 .common-content-box .common-main-content {
   width: 700px;
-  height: 1000px;
   background: #ffffff;
+  float: left;
 }
 .common-content-box .common-main-content .list-title {
   padding: 15px 20px;
@@ -186,9 +217,36 @@ a.active {
   padding: 12px 20px;
   border-bottom: 1px solid #f4f5f5;
   background: #ffffff;
+  cursor: pointer;
 }
 .common-content-box .common-main-content .list-box .content-list:hover {
   background: #fbfbfb;
+}
+.common-content-box .common-main-content .list-box .content-list .content-list-f {
+  width: 520px;
+  display: inline-block;
+}
+.common-content-box .common-main-content .list-box .content-list .content-list-f .title {
+  color: #333;
+}
+.common-content-box .common-main-content .list-box .content-list .content-list-f .describe {
+  color: #71777c;
+  font-size: 14px;
+  padding: 7px 0;
+}
+.common-content-box .common-main-content .list-box .content-list .content-list-img {
+  display: inline-block;
+  width: 82px;
+  height: 82px;
+  vertical-align: top;
+  background: #ccc;
+  /* text-align: right; */
+  float: right;
+}
+.common-content-box .common-main-content .list-box .content-list .content-list-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .common-content-box .common-main-content .list-box .content-list .share-info {
   font-size: 12px;
@@ -196,9 +254,69 @@ a.active {
 }
 .common-content-box .common-main-tool {
   width: 240px;
-  height: 700px;
-  background: #ffffff;
+  float: right;
   margin-left: 20px;
+}
+.common-content-box .common-main-tool .title {
+  border-bottom: 1px solid #f4f5f5;
+  padding: 10px 15px;
+  font-size: 15px;
+}
+.common-content-box .common-main-tool .user-info {
+  background: #ffffff;
+  padding: 20px;
+}
+.common-content-box .common-main-tool .user-info .head-img {
+  display: block;
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  margin: 0 auto 0;
+}
+.common-content-box .common-main-tool .user-info .github-name {
+  color: #333;
+  text-align: center;
+  padding: 8px 0px;
+}
+.common-content-box .common-main-tool .login {
+  background: #ffffff;
+  text-align: center;
+  font-size: 132px;
+  cursor: pointer;
+}
+.common-content-box .common-main-tool .common-part {
+  background: #ffffff;
+  margin-top: 15px;
+}
+.common-content-box .common-main-tool .common-part .learn-tool-box {
+  padding: 10px;
+}
+.common-content-box .common-main-tool .common-part .learn-tool-box .list {
+  display: inline-block;
+  font-size: 12px;
+  background: #f4f5f5;
+  padding: 5px 12px;
+  border-radius: 5px;
+  color: #444;
+  margin: 5px;
+}
+.common-content-box .common-main-tool .common-part .learn-tool-box .list:hover {
+  background: #007fff;
+  color: #ffffff;
+  cursor: pointer;
+}
+.common-content-box .common-main-tool .common-part .article-tool-box {
+  padding: 8px 15px;
+}
+.common-content-box .common-main-tool .common-part .article-tool-box .list {
+  font-size: 14px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 
