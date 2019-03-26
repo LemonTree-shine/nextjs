@@ -202,7 +202,8 @@ function (_Component) {
     });
 
     _this.state = {
-      ifLogin: false
+      ifLogin: false,
+      longinUserInfo: {}
     };
     return _this;
   }
@@ -210,11 +211,20 @@ function (_Component) {
   Object(_babel_runtime_corejs2_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_6__["default"])(Index, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getUserInfo", {
-        name: "chenze"
-      }, {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getUserInfo", {}, {
         headers: {
           "Content-Type": "text/plain; charset=utf-8"
+        }
+      }).then(function (data) {
+        console.log(data);
+
+        if (data.data.code === "0") {
+          _this2.setState({
+            ifLogin: true,
+            longinUserInfo: data.data.data[0]
+          });
         }
       });
       window.onscroll = debounce(); //防抖函数
@@ -245,4 +255,4 @@ function (_Component) {
 /***/ })
 
 })
-//# sourceMappingURL=index.js.f118b75a57aff516fdee.hot-update.js.map
+//# sourceMappingURL=index.js.d0a22ddb2ee504021902.hot-update.js.map

@@ -30,12 +30,22 @@ common.use(function(req,res,next){
     next();   
 })
 
-
+//获取登录信息
 common.use("/getUserInfo",function(req,res){
+    
     if(req.session.loginName){
-        res.send("登录了");
+        sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
+            if(err) console.log(err);
+            if(data.length){
+                res.send(JSON.stringify(config.okData("0","成功",data)));
+            }else{
+                res.send(JSON.stringify(config.okData("10001","未登录",{}))); 
+            }
+            
+        });
+        
     }else{
-        res.send("没有登录");
+        res.send(JSON.stringify(config.okData("10001","未登录",{}))); 
     }
 });
 

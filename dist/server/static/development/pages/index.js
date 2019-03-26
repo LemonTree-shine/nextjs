@@ -163,8 +163,10 @@ function (_Component) {
         }, list.value));
       }))), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
         className: "login-info"
-      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("a", {
+      }, this.props.longinUserInfo.login_name ? react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("a", {
         href: "javascript:;"
+      }, this.props.longinUserInfo.login_name) : react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("a", {
+        href: "/api/getGithubCode"
       }, "\u767B\u5F55"))));
     }
   }]);
@@ -1574,7 +1576,8 @@ function (_Component) {
     value: function render() {
       // console.log(this.props.pathname);
       return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_component_nav_nav__WEBPACK_IMPORTED_MODULE_12__["default"], {
-        pathname: this.props.pathname
+        pathname: this.props.pathname,
+        longinUserInfo: this.state.longinUserInfo
       }), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
         className: "common-content-box"
       }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
@@ -1612,12 +1615,12 @@ function (_Component) {
         className: "user-info radio5"
       }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("img", {
         className: "head-img",
-        src: "https://avatars1.githubusercontent.com/u/20238337?v=4"
+        src: this.state.longinUserInfo.avatar_url
       }), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
         className: "github-name"
       }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("a", {
-        href: ""
-      }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("strong", null, "\u9648\u6CFD"), "(LemonTree-shine)")), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
+        href: this.state.longinUserInfo.html_url
+      }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("strong", null, this.state.longinUserInfo.login_name), "(", this.state.longinUserInfo.name, ")")), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
         className: "t-l-c"
       }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("i", {
         className: "fa fa-smile-o"
@@ -1716,7 +1719,8 @@ function (_Component) {
     });
 
     _this.state = {
-      ifLogin: false
+      ifLogin: false,
+      longinUserInfo: {}
     };
     return _this;
   }
@@ -1724,11 +1728,20 @@ function (_Component) {
   Object(_babel_runtime_corejs2_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_6__["default"])(Index, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getUserInfo", {
-        name: "chenze"
-      }, {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getUserInfo", {}, {
         headers: {
           "Content-Type": "text/plain; charset=utf-8"
+        }
+      }).then(function (data) {
+        console.log(data);
+
+        if (data.data.code === "0") {
+          _this2.setState({
+            ifLogin: true,
+            longinUserInfo: data.data.data[0]
+          });
         }
       });
       window.onscroll = debounce(); //防抖函数
@@ -1776,7 +1789,7 @@ function (_Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! c:\ownSpace\nextjs\pages\index.jsx */"./pages/index.jsx");
+module.exports = __webpack_require__(/*! f:\workspace\nextjs\pages\index.jsx */"./pages/index.jsx");
 
 
 /***/ }),
