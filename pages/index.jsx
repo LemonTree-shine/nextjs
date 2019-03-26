@@ -14,7 +14,7 @@ export default class Index extends Component{
         // console.log(this.props.pathname);
         return <div>
             {/* 导航部分内容 */}
-            <Nav pathname={this.props.pathname}/>
+            <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo}/>
             <div className="common-content-box">
                 <div className="common-main-content radio5">
                     {/* <i className="fa fa-car" style={{"color":"red"}}></i> */}
@@ -40,9 +40,9 @@ export default class Index extends Component{
                 <div className="common-main-tool">
                     {/* <a href="/api/getGithubCode">点我</a> */}
                     {this.state.ifLogin?<div className="user-info radio5">
-                        <img className="head-img" src="https://avatars1.githubusercontent.com/u/20238337?v=4"></img>
+                        <img className="head-img" src={this.state.longinUserInfo.avatar_url}></img>
                         <div className="github-name">
-                            <a href=""><strong>陈泽</strong>(LemonTree-shine)</a>
+                            <a href={this.state.longinUserInfo.html_url}><strong>{this.state.longinUserInfo.login_name}</strong>({this.state.longinUserInfo.name})</a>
                         </div>
                         <div className="t-l-c">
                             <i className="fa fa-smile-o"></i>&nbsp;&nbsp;<span>Welcome to here.</span>
@@ -90,16 +90,27 @@ export default class Index extends Component{
     constructor(){
         super();
         this.state = {
-            ifLogin:false
+            ifLogin:false,
+            longinUserInfo:{}
         }
     }
 
     componentDidMount(){
-        axios.post("/api/getUserInfo",{name:"chenze"},{
+        axios.post("/api/getUserInfo",{},{
             headers:{
                 "Content-Type":"text/plain; charset=utf-8"
             }
+        }).then((data)=>{
+            console.log(data);
+            if(data.data.code==="0"){
+                this.setState({
+                    ifLogin:true,
+                    longinUserInfo:data.data.data[0]
+                });
+            }
         });
+
+
         window.onscroll = debounce();
 
         //防抖函数

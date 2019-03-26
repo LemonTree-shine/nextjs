@@ -27,7 +27,8 @@ export default class Nav extends Component{
                     </ul>
                 </div>
                 <div className="login-info">
-                    <a href="javascript:;">登录</a>
+                    {this.props.longinUserInfo.login_name?<a href="javascript:;">{this.props.longinUserInfo.login_name}</a>:<a href="/api/getGithubCode">登录</a>}
+                    
                 </div>
             </div>
         </div>
