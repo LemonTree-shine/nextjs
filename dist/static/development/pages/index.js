@@ -12765,18 +12765,44 @@ function (_Component) {
       var _getInitialProps = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
       /*#__PURE__*/
       _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref) {
-        var req;
+        var req, info, returnData;
         return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 req = _ref.req;
-                return _context.abrupt("return", {
-                  pathname: req.url //获取当前路径用于选中菜单
-
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getUserInfo", {}, {
+                  headers: {
+                    "Content-Type": "text/plain; charset=utf-8",
+                    "cookie": req.headers.cookie
+                  }
                 });
 
-              case 2:
+              case 3:
+                info = _context.sent;
+                console.log(info.data);
+                returnData = {};
+
+                if (info.data.code == "0") {
+                  returnData = {
+                    pathname: req.url,
+                    //获取当前路径用于选中菜单
+                    userInfo: info.data.data[0],
+                    ifLogin: true
+                  };
+                } else if (info.data.code == "10001") {
+                  returnData = {
+                    pathname: req.url,
+                    //获取当前路径用于选中菜单
+                    userInfo: info.data.data,
+                    ifLogin: false
+                  };
+                }
+
+                return _context.abrupt("return", returnData);
+
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -12792,20 +12818,21 @@ function (_Component) {
     }()
   }]);
 
-  function Index() {
+  function Index(props) {
     var _this;
 
     Object(_babel_runtime_corejs2_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__["default"])(this, Index);
 
-    _this = Object(_babel_runtime_corejs2_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__["default"])(this, Object(_babel_runtime_corejs2_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__["default"])(Index).call(this));
+    _this = Object(_babel_runtime_corejs2_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__["default"])(this, Object(_babel_runtime_corejs2_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__["default"])(Index).call(this, props));
 
     Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this), "login", function () {
       axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getGithubCode");
     });
 
+    console.log(props);
     _this.state = {
-      ifLogin: false,
-      longinUserInfo: {}
+      ifLogin: props.ifLogin,
+      longinUserInfo: props.userInfo
     };
     return _this;
   }
@@ -12815,6 +12842,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      return false;
       axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getUserInfo", {}, {
         headers: {
           "Content-Type": "text/plain; charset=utf-8"

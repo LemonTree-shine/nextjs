@@ -32,7 +32,7 @@ common.use(function(req,res,next){
 
 //获取登录信息
 common.use("/getUserInfo",function(req,res){
-    
+    //判断session是否存在
     if(req.session.loginName){
         sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
             if(err) console.log(err);
@@ -72,6 +72,8 @@ common.use("/getToken",function(requestBody,res){
         },function(req,result){
             //处理用户信息
             var loginData = JSON.parse(result.body);
+            //拿到登录信息需要现在数据库中查询信息是否已经存在，若存在，跳过将数据插入数据库的过程
+
             var insertSql = `INSERT INTO user_info ( login_name, avatar_url,html_url,name,company,blog,location,email,bio,public_repos,followers,created_at,login_time )
                                 VALUES 
                             ( '${loginData.login}','${loginData.avatar_url}','${loginData.html_url}','${loginData.name}','${loginData.company}','${loginData.blog}','${loginData.location}','${loginData.email}','${loginData.bio}','${loginData.public_repos}','${loginData.followers}','${loginData.created_at}','${new Date().getTime()}' );`
