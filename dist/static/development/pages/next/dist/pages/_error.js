@@ -3760,10 +3760,10 @@ module.exports = __webpack_require__(/*! ./dist/lib/head */ "./node_modules/next
 
 /***/ }),
 
-/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F_error&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js!./":
-/*!*********************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F_error&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js ***!
-  \*********************************************************************************************************************************************************************************************/
+/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F_error&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js!./":
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F_error&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js ***!
+  \********************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4565,13 +4565,13 @@ module.exports = (__webpack_require__(/*! dll-reference dll_55dc4e2ecf7824085104
 /***/ }),
 
 /***/ 6:
-/*!*************************************************************************************************************************************************!*\
-  !*** multi next-client-pages-loader?page=%2F_error&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js ***!
-  \*************************************************************************************************************************************************/
+/*!************************************************************************************************************************************************!*\
+  !*** multi next-client-pages-loader?page=%2F_error&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js ***!
+  \************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2F_error&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F_error&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js!./");
+module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2F_error&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F_error&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cnode_modules%5Cnext%5Cdist%5Cpages%5C_error.js!./");
 
 
 /***/ }),

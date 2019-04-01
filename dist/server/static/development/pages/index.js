@@ -1703,7 +1703,7 @@ function (_Component) {
                   returnData = {
                     pathname: req.url,
                     //获取当前路径用于选中菜单
-                    userInfo: info.data.data[0],
+                    userInfo: info.data.data,
                     ifLogin: true
                   };
                 } else if (info.data.code == "10001") {
@@ -1817,7 +1817,7 @@ function (_Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! f:\workspace\nextjs\pages\index.jsx */"./pages/index.jsx");
+module.exports = __webpack_require__(/*! c:\ownSpace\nextjs\pages\index.jsx */"./pages/index.jsx");
 
 
 /***/ }),

@@ -8173,10 +8173,10 @@ module.exports = __webpack_require__(/*! ./dist/lib/dynamic */ "./node_modules/n
 
 /***/ }),
 
-/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx!./":
-/*!**********************************************************************************************************************************************************!*\
-  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx ***!
-  \**********************************************************************************************************************************************************/
+/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx!./":
+/*!*********************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx ***!
+  \*********************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12788,7 +12788,7 @@ function (_Component) {
                   returnData = {
                     pathname: req.url,
                     //获取当前路径用于选中菜单
-                    userInfo: info.data.data[0],
+                    userInfo: info.data.data,
                     ifLogin: true
                   };
                 } else if (info.data.code == "10001") {
@@ -12885,13 +12885,13 @@ function (_Component) {
 /***/ }),
 
 /***/ 1:
-/*!**************************************************************************************************************!*\
-  !*** multi next-client-pages-loader?page=%2F&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx ***!
-  \**************************************************************************************************************/
+/*!*************************************************************************************************************!*\
+  !*** multi next-client-pages-loader?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx ***!
+  \*************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2F&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=f%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx!./");
+module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx!./");
 
 
 /***/ }),

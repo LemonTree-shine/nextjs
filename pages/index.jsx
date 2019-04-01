@@ -82,6 +82,7 @@ export default class Index extends Component{
     //异步获取数据，在服务端执行
     static async getInitialProps({ req }) {
         //console.log(req.headers);
+        //cookie同步
         var info =  await axios.post("/api/getUserInfo",{},{
             headers:{
                 "Content-Type":"text/plain; charset=utf-8",
@@ -94,7 +95,7 @@ export default class Index extends Component{
         if(info.data.code=="0"){
             returnData = {
                 pathname:req.url,  //获取当前路径用于选中菜单
-                userInfo:info.data.data[0],
+                userInfo:info.data.data,
                 ifLogin:true
             }
         }else if(info.data.code=="10001"){

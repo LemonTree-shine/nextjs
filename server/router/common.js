@@ -37,7 +37,7 @@ common.use("/getUserInfo",function(req,res){
         sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
             if(err) console.log(err);
             if(data.length){
-                res.send(JSON.stringify(config.okData("0","成功",data)));
+                res.send(JSON.stringify(config.okData("0","成功",data[0])));
             }else{
                 res.send(JSON.stringify(config.okData("10001","未登录",{}))); 
             }
@@ -73,25 +73,39 @@ common.use("/getToken",function(requestBody,res){
             //处理用户信息
             var loginData = JSON.parse(result.body);
             //拿到登录信息需要现在数据库中查询信息是否已经存在，若存在，跳过将数据插入数据库的过程
-
-            var insertSql = `INSERT INTO user_info ( login_name, avatar_url,html_url,name,company,blog,location,email,bio,public_repos,followers,created_at,login_time )
-                                VALUES 
-                            ( '${loginData.login}','${loginData.avatar_url}','${loginData.html_url}','${loginData.name}','${loginData.company}','${loginData.blog}','${loginData.location}','${loginData.email}','${loginData.bio}','${loginData.public_repos}','${loginData.followers}','${loginData.created_at}','${new Date().getTime()}' );`
-            
-            sqlPoor.query(insertSql,(err,data)=>{
+            var queryUserInfo = `SELECT * FROM user_info WHERE login_name='${loginData.login}'`
+            console.log(queryUserInfo);
+            sqlPoor.query(queryUserInfo,(err,data)=>{
                 if(err){
                     console.log(err)
                 }else{
-                    //登录成功塞入一个session:loginName
-                    requestBody.session.loginName = loginData.login;
+                    //console.log(JSON.stringify(data))
+                    //查询到数据库中有数据
+                    if(data.length){
+                        //登录成功塞入一个session:loginName
+                        requestBody.session.loginName = loginData.login;
 
-                    //跳转到首页面
-                    res.redirect("/")
+                        //跳转到首页面
+                        res.redirect("/")
+                    }else{
+                        var insertSql = `INSERT INTO user_info ( login_name, avatar_url,html_url,name,company,blog,location,email,bio,public_repos,followers,created_at,login_time )
+                                VALUES 
+                            ( '${loginData.login}','${loginData.avatar_url}','${loginData.html_url}','${loginData.name}','${loginData.company}','${loginData.blog}','${loginData.location}','${loginData.email}','${loginData.bio}','${loginData.public_repos}','${loginData.followers}','${loginData.created_at}','${new Date().getTime()}' );`
+            
+                        sqlPoor.query(insertSql,(err,data)=>{
+                            if(err){
+                                console.log(err)
+                            }else{
+                                //登录成功塞入一个session:loginName
+                                requestBody.session.loginName = loginData.login;
+
+                                //跳转到首页面
+                                res.redirect("/")
+                            }
+                        });
+                    }
                 }
-            });
-
-            
-            
+            }); 
         });
     });   
 })
