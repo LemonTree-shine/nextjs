@@ -8173,10 +8173,10 @@ module.exports = __webpack_require__(/*! ./dist/lib/dynamic */ "./node_modules/n
 
 /***/ }),
 
-/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx!./":
-/*!*********************************************************************************************************************************************************!*\
-  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx ***!
-  \*********************************************************************************************************************************************************/
+/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=F%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx!./":
+/*!**********************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=F%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx ***!
+  \**********************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12775,7 +12775,7 @@ function (_Component) {
                 return axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getUserInfo", {}, {
                   headers: {
                     "Content-Type": "text/plain; charset=utf-8",
-                    "cookie": req.headers.cookie
+                    "cookie": req.headers.cookie || ""
                   }
                 });
 
@@ -12885,13 +12885,13 @@ function (_Component) {
 /***/ }),
 
 /***/ 1:
-/*!*************************************************************************************************************!*\
-  !*** multi next-client-pages-loader?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx ***!
-  \*************************************************************************************************************/
+/*!**************************************************************************************************************!*\
+  !*** multi next-client-pages-loader?page=%2F&absolutePagePath=F%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx ***!
+  \**************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=c%3A%5CownSpace%5Cnextjs%5Cpages%5Cindex.jsx!./");
+module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2F&absolutePagePath=F%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=F%3A%5Cworkspace%5Cnextjs%5Cpages%5Cindex.jsx!./");
 
 
 /***/ }),
