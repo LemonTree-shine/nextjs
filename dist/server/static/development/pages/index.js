@@ -1690,7 +1690,7 @@ function (_Component) {
                 return axios__WEBPACK_IMPORTED_MODULE_10___default.a.post("/api/getUserInfo", {}, {
                   headers: {
                     "Content-Type": "text/plain; charset=utf-8",
-                    "cookie": req.headers.cookie
+                    "cookie": req.headers.cookie || ""
                   }
                 });
 
@@ -1817,7 +1817,7 @@ function (_Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! c:\ownSpace\nextjs\pages\index.jsx */"./pages/index.jsx");
+module.exports = __webpack_require__(/*! F:\workspace\nextjs\pages\index.jsx */"./pages/index.jsx");
 
 
 /***/ }),

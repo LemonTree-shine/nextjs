@@ -2205,6 +2205,16 @@ function (_Document) {
       }), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("meta", {
         name: "viewport",
         content: "width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"
+      }), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("link", {
+        rel: "stylesheet",
+        href: "/static/editorMd/css/editormd.css"
+      }), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("link", {
+        rel: "stylesheet",
+        href: "/static/editorMd/css/editormd.css"
+      }), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("script", {
+        src: "/static/editorMd/js/jquery.min.js"
+      }), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("script", {
+        src: "/static/editorMd/editormd.min.js"
       })), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("body", {
         className: "custom_class"
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_9__["Main"], null), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_9__["NextScript"], null)));
