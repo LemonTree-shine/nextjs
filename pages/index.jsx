@@ -86,7 +86,7 @@ export default class Index extends Component{
         var info =  await axios.post("/api/getUserInfo",{},{
             headers:{
                 "Content-Type":"text/plain; charset=utf-8",
-                "cookie":req.headers.cookie
+                "cookie":req.headers.cookie || ""
             }
         });
         console.log(info.data);
