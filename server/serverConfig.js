@@ -49,3 +49,23 @@ exports.okData = function(code,message,data){
         data
     }
 }
+
+//返回未登录状态信息
+exports.notLoginData = function(){
+    return {
+        code:"10001",
+        message:"未登录",
+        data:{}
+    }
+}
+
+//返回服务器出错问题
+exports.serverErr = function(errdata){
+    return {
+        code:"10001",
+        message:"服务端出错，请及时联系管理员",
+        data:errdata
+    }
+}
+
+exports.articlePath = "./server/article"

@@ -6,6 +6,8 @@ var request = require('request');
 const cookieParser = require("cookie-parser"); //读取cookie
 const session = require('express-session');
 
+var fs = require('fs');
+
 var common = express.Router();
 
 //处理post传过来的数据
@@ -39,13 +41,13 @@ common.use("/getUserInfo",function(req,res){
             if(data.length){
                 res.send(JSON.stringify(config.okData("0","成功",data[0])));
             }else{
-                res.send(JSON.stringify(config.okData("10001","未登录",{}))); 
+                res.send(JSON.stringify(config.notLoginData())); 
             }
             
         });
         
     }else{
-        res.send(JSON.stringify(config.okData("10001","未登录",{}))); 
+        res.send(JSON.stringify(config.notLoginData())); 
     }
 });
 
@@ -108,6 +110,53 @@ common.use("/getToken",function(requestBody,res){
             }); 
         });
     });   
+});
+
+//发布文章
+common.use("/publishArticle",function(req,res){
+    //console.log(req.session.loginName)
+    //console.log(JSON.parse(req.body));
+    if(!req.session.loginName){
+        res.send(JSON.stringify(config.notLoginData())); 
+        return;
+    }
+    try{
+        let params = JSON.parse(req.body);
+        let title = params.title;
+        let content = params.content;
+
+        let time = new Date().getTime();
+
+        //获取发布人的id
+        sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
+            var userid = data[0].id;
+            var insertSql = `INSERT INTO article_list (title,filename,userId,content,createTime,author)
+                        VALUES
+                        ('${title}','${String(time)}','${userid}','${content}','${time}','${req.session.loginName}')`;
+            //发布文章，插入数据库
+            sqlPoor.query(insertSql,(err,data)=>{
+                if(err){
+                    res.send(JSON.stringify(config.serverErr(err)));
+                }else{
+                    fs.writeFile(`${config.articlePath}/${String(time)}.md`,content,(err)=>{
+                        if(err){
+                            res.send(JSON.stringify(config.serverErr(err)));
+                        }else{
+                            res.send(JSON.stringify(config.okData("0","成功",{data:"发布成功"})));
+                        }
+                    })
+                    
+                }
+                
+            })
+        });
+        
+
+        
+    }catch{
+        res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
+    }
+    
 })
 
 module.exports = common;

@@ -118,21 +118,6 @@ export default class Index extends Component{
     }
 
     componentDidMount(){
-        return false;
-        axios.post("/api/getUserInfo",{},{
-            headers:{
-                "Content-Type":"text/plain; charset=utf-8"
-            }
-        }).then((data)=>{
-            console.log(data);
-            if(data.data.code==="0"){
-                this.setState({
-                    ifLogin:true,
-                    longinUserInfo:data.data.data[0]
-                });
-            }
-        });
-
 
         window.onscroll = debounce();
 
