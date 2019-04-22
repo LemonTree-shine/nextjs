@@ -37,6 +37,11 @@ function startServer(req,res){
     */
     server.use("/api",common);
 
+    server.use("/article/:id",function(req,res){
+        console.log(req.params)
+        app.render(req, res, '/article', req.params)
+    })
+
     //next.js服务器渲染统一走默认配置
     server.get("*",function(req,res){
         handle(req,res);
