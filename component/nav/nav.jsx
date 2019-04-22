@@ -48,8 +48,8 @@ export default class Nav extends Component{
             value:"话题",
             url:"/topics"
         },{
-            value:"小册",
-            url:"/books"
+            value:"写文章",
+            url:"/article"
         },{
             value:"活动",
             url:"/events"
