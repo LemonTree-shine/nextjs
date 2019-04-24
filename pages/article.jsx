@@ -1,6 +1,8 @@
 import {Component} from "react";
 import "../style/article.less";
-import axios from "axios";
+import Axios from "../common/Axios";
+import { Button, notification } from 'antd';
+
 export default class Index extends Component{
     render(){
         return <div className="c-write-article">
@@ -18,6 +20,7 @@ export default class Index extends Component{
         
     }
     componentDidMount(){
+        
         console.log(this.props)
         editormd("editor", {
             htmlDecode      : "style,script,iframe",
@@ -33,26 +36,34 @@ export default class Index extends Component{
     }
     submitArticle = ()=>{
         if(!this.title.value){
-            alert('标题不能为空！');
+            notification.open({
+                message: '提示',
+                description: '文章标题不能为空',
+                duration: 1,
+            });
             return;
         }
         if(!this.textarea.value){
-            alert('文章内容不能不能为空！');
+            notification.open({
+                message: '提示',
+                description: '文章内容不能为空！',
+                duration: 1,
+            });
             return;
         }
 
-        axios.post("/api/publishArticle",{
-            title:this.title.value,
-            content:this.textarea.value
-        },{
-            headers:{
-                "Content-Type":"text/plain; charset=utf-8",
-                "withCredentials":true
+        Axios({
+            url:"/api/publishArticle",
+            data:{
+                title:this.title.value,
+                content:this.textarea.value
             }
-        },(data)=>{
-            console.log(data)
+        }).then((data)=>{
+            notification.success({
+                message: '提示',
+                description: '发布成功',
+                duration: 1,
+            });
         });
-
-        
     }
 }

@@ -54,7 +54,7 @@ exports.okData = function(code,message,data){
 exports.notLoginData = function(){
     return {
         code:"10001",
-        message:"未登录",
+        message:"不好意思，您没有登录！",
         data:{}
     }
 }
@@ -62,7 +62,7 @@ exports.notLoginData = function(){
 //返回服务器出错问题
 exports.serverErr = function(errdata){
     return {
-        code:"10001",
+        code:"999",
         message:"服务端出错，请及时联系管理员",
         data:errdata
     }
