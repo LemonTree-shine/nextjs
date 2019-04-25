@@ -157,6 +157,32 @@ common.use("/publishArticle",function(req,res){
         res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
     }
     
+});
+
+//读取文章
+common.use("/readArticle",function(req,res){
+    let params = JSON.parse(req.body);
+    let id = params.id;
+
+    var sql = `SELECT * FROM article_list WHERE id=${id}`;
+    sqlPoor.query(sql,(err,data)=>{
+        
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            if(data.length){
+                var resData = data[0];
+                var content = fs.readFileSync(`${config.articlePath}/${resData.filename}.md`,'utf-8');
+
+                res.send(JSON.stringify(config.okData("0","成功",{
+                    content:content,
+                    ...resData
+                })));
+            }else{
+                res.send(JSON.stringify(config.okData("2","文章不存在",{data:"文章不存在"})));
+            }
+        }
+    });
 })
 
 module.exports = common;
