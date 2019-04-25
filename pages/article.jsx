@@ -16,12 +16,9 @@ export default class Index extends Component{
                 </div>
             </div>
             
-        </div>
-        
+        </div> 
     }
-    componentDidMount(){
-        
-        console.log(this.props)
+    initEditor = ()=>{
         editormd("editor", {
             htmlDecode      : "style,script,iframe",
             placeholder:'',
@@ -33,6 +30,30 @@ export default class Index extends Component{
                 return ["undo","redo","|","bold","del","italic","quote","ucwords","uppercase","lowercase","|","h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","link","image","code","preformatted-text","code-block","table","datetime","html-entities","|","clear"]
             }
         });
+    }
+    componentDidMount(){
+        var id = this.props.url.query.id;
+        //判断是否有id
+        if(id){
+            Axios({
+                url:"/api/readArticle",
+                data:{
+                    id:id
+                }
+            }).then((data)=>{
+                //console.log(data)
+                setTimeout(()=>{
+                    this.title.value = data.data.title;
+                    this.textarea.value = data.data.content;
+
+                    this.initEditor();
+                },100)
+                
+            });
+        }else{
+            this.initEditor();
+        }
+
     }
     submitArticle = ()=>{
         if(!this.title.value){
@@ -52,6 +73,27 @@ export default class Index extends Component{
             return;
         }
 
+        var id = this.props.url.query.id;
+        if(id){
+            //更新文章
+            Axios({
+                url:"/api/uploadArticle",
+                data:{
+                    title:this.title.value,
+                    content:this.textarea.value
+                }
+            }).then((data)=>{
+                notification.success({
+                    message: '提示',
+                    description: '更新成功',
+                    duration: 1,
+                });
+            });
+
+            return;
+        }
+
+        //发布新的文章
         Axios({
             url:"/api/publishArticle",
             data:{
