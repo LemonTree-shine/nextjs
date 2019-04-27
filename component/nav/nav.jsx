@@ -45,14 +45,11 @@ export default class Nav extends Component{
             value:"动态",
             url:"/activities"
         },{
-            value:"话题",
-            url:"/topics"
+            value:"文章列表",
+            url:"/articleList"
         },{
             value:"写文章",
             url:"/article"
-        },{
-            value:"活动",
-            url:"/events"
         }];
 
     }

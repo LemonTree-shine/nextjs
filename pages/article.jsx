@@ -3,6 +3,7 @@ import "../style/article.less";
 import Axios from "../common/Axios";
 import { Button, notification } from 'antd';
 
+
 export default class Index extends Component{
     render(){
         return <div className="c-write-article">
@@ -18,6 +19,12 @@ export default class Index extends Component{
             
         </div> 
     }
+    constructor(){
+        super();
+        this.state = {
+            articleInfo:{}
+        }
+    }
     initEditor = ()=>{
         editormd("editor", {
             htmlDecode      : "style,script,iframe",
@@ -28,8 +35,9 @@ export default class Index extends Component{
             path    : "/static/editorMd/lib/",
             toolbarIcons:function(){
                 return ["undo","redo","|","bold","del","italic","quote","ucwords","uppercase","lowercase","|","h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","link","image","code","preformatted-text","code-block","table","datetime","html-entities","|","clear"]
-            }
+            },
         });
+
     }
     componentDidMount(){
         var id = this.props.url.query.id;
@@ -41,13 +49,15 @@ export default class Index extends Component{
                     id:id
                 }
             }).then((data)=>{
-                //console.log(data)
-                setTimeout(()=>{
-                    this.title.value = data.data.title;
-                    this.textarea.value = data.data.content;
 
-                    this.initEditor();
-                },100)
+                this.title.value = data.data.title;
+                this.textarea.value = data.data.content;
+
+                this.initEditor();
+
+                this.setState({
+                    articleInfo:data.data
+                });
                 
             });
         }else{
@@ -80,7 +90,9 @@ export default class Index extends Component{
                 url:"/api/uploadArticle",
                 data:{
                     title:this.title.value,
-                    content:this.textarea.value
+                    content:this.textarea.value,
+                    id:this.state.articleInfo.id,
+                    filename:this.state.articleInfo.filename
                 }
             }).then((data)=>{
                 notification.success({
@@ -88,6 +100,9 @@ export default class Index extends Component{
                     description: '更新成功',
                     duration: 1,
                 });
+                setTimeout(()=>{
+                    location.href = "/articleList";
+                },1000)
             });
 
             return;
@@ -106,6 +121,9 @@ export default class Index extends Component{
                 description: '发布成功',
                 duration: 1,
             });
+            setTimeout(()=>{
+                location.href = "/articleList";
+            },1000)
         });
     }
 }
