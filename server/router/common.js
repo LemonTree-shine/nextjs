@@ -130,9 +130,9 @@ common.use("/publishArticle",function(req,res){
         //获取发布人的id
         sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
             var userid = data[0].id;
-            var insertSql = `INSERT INTO article_list (title,filename,userId,content,createTime,author)
+            var insertSql = `INSERT INTO article_list (title,filename,userId,createTime,author)
                         VALUES
-                        ('${title}','${String(time)}','${userid}','${content}','${time}','${req.session.loginName}')`;
+                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}')`;
             //发布文章，插入数据库
             sqlPoor.query(insertSql,(err,data)=>{
                 if(err){
@@ -159,6 +159,44 @@ common.use("/publishArticle",function(req,res){
     
 });
 
+//更新文章
+common.use("/uploadArticle",function(req,res){
+    //console.log(req.session.loginName)
+    //console.log(JSON.parse(req.body));
+    // if(!req.session.loginName){
+    //     res.send(JSON.stringify(config.notLoginData())); 
+    //     return;
+    // }
+    try{
+        let params = JSON.parse(req.body);
+
+        var updateSql = `UPDATE article_list SET title = '${params.title}' WHERE id = '${params.id}'`
+
+        //发布文章，插入数据库
+        sqlPoor.query(updateSql,(err,data)=>{
+            if(err){
+                res.send(JSON.stringify(config.serverErr(err)));
+            }else{
+                fs.writeFile(`${config.articlePath}/${params.filename}.md`,params.content,(err)=>{
+                    if(err){
+                        res.send(JSON.stringify(config.serverErr(err)));
+                    }else{
+                        res.send(JSON.stringify(config.okData("0","成功",{data:"更新成功"})));
+                    }
+                })
+                
+            }
+            
+        })
+        
+
+        
+    }catch{
+        res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
+    }
+    
+});
+
 //读取文章
 common.use("/readArticle",function(req,res){
     let params = JSON.parse(req.body);
@@ -175,12 +213,28 @@ common.use("/readArticle",function(req,res){
                 var content = fs.readFileSync(`${config.articlePath}/${resData.filename}.md`,'utf-8');
 
                 res.send(JSON.stringify(config.okData("0","成功",{
+                    ...resData,
                     content:content,
-                    ...resData
                 })));
             }else{
                 res.send(JSON.stringify(config.okData("2","文章不存在",{data:"文章不存在"})));
             }
+        }
+    });
+});
+
+//获取文章列表
+common.use("/getArticleList",function(req,res){
+    var sql = `SELECT * FROM article_list`;
+    sqlPoor.query(sql,(err,data)=>{
+        
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData("0","成功",{
+                data
+            }))
+            res.send(dataStr);
         }
     });
 })
