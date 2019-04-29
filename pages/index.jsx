@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Nav from "../component/nav/nav";
 import dynamic from 'next/dynamic';
 import "../style/index.less";
+import {timeStr} from "../common/util"
 
 // const Nav = dynamic(import('../component/nav/nav'),{
 //     ssr:false
@@ -12,6 +13,7 @@ import "../style/index.less";
 export default class Index extends Component{
     render(){
         // console.log(this.props.pathname);
+        var {articleList} = this.state;
         return <div>
             {/* 导航部分内容 */}
             <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo}/>
@@ -20,20 +22,23 @@ export default class Index extends Component{
                     {/* <i className="fa fa-car" style={{"color":"red"}}></i> */}
                     <div className="list-title">文章列表</div>
                     <div className="list-box">
-                        <div className="content-list">
-                            <div className="share-info"><span className="share-title-color">分享</span> · 西瓜太郎 · 4小时前 / javascript · node</div>
-                            <div className="content-list-f">
-                                <h3 className="title pt-5">Node.js开发微信公众号</h3>
-                                <div className="describe">但是很多年轻人还是选择去相亲。 今天我就参与了一场相亲活动，怎么说呢？还是蛮有意思的，两个陌生人一上来就聊些我们做了很...</div>
+                        {articleList&&articleList.map(list=>{
+                            return <div className="content-list" key={list.id} onClick={()=>{this.toArticlePage(list.id)}}>
+                                <div className="share-info"><span className="share-title-color">分享</span> · {list.author} · {timeStr(list.createTime)} / javascript · node</div>
+                                <div className="content-list-f">
+                                    <h3 className="title pt-5">{list.title}</h3>
+                                    {/* <div className="describe">但是很多年轻人还是选择去相亲。 今天我就参与了一场相亲活动，怎么说呢？还是蛮有意思的，两个陌生人一上来就聊些我们做了很...</div> */}
+                                </div>
+                                {/* <div className="content-list-img">
+                                    <img src="/static/image/github.png" alt=""/>
+                                </div> */}
+                                <div className="action-list">
+                                    <div className="fa fa-heart fa-icon" onClick={(e)=>{this.handleSuppert(e,list.id)}}> {list.support||"0"}</div>
+                                    {/* <div className="fa fa-comments fa-icon"> 10</div> */}
+                                </div>
                             </div>
-                            <div className="content-list-img">
-                                <img src="/static/image/github.png" alt=""/>
-                            </div>
-                            <div className="action-list">
-                                <div className="fa fa-heart fa-icon"> 10</div>
-                                <div className="fa fa-comments fa-icon"> 10</div>
-                            </div>
-                        </div>
+                        })}
+                        
                     </div>
                     
                 </div>
@@ -81,29 +86,32 @@ export default class Index extends Component{
 
     //异步获取数据，在服务端执行
     static async getInitialProps({ req }) {
-        //console.log(req.headers);
-        //cookie同步
+        //获取用户信息
         var info =  await axios.post("/api/getUserInfo",{},{
             headers:{
                 "Content-Type":"text/plain; charset=utf-8",
                 "cookie":req.headers.cookie || ""
             }
         });
-        console.log(info.data);
-        var returnData = {};
+
+        //获取文章列表
+        var articleList =  await axios.post("/api/getArticleList",{},{
+            headers:{
+                "Content-Type":"text/plain; charset=utf-8",
+            }
+        });
+
+
+        var returnData = {
+            pathname:req.url,  //获取当前路径用于选中菜单
+            userInfo:info.data.data,
+            articleList:articleList.data.data.data,
+        };
 
         if(info.data.code=="0"){
-            returnData = {
-                pathname:req.url,  //获取当前路径用于选中菜单
-                userInfo:info.data.data,
-                ifLogin:true
-            }
+            returnData.ifLogin = true;
         }else if(info.data.code=="10001"){
-            returnData = {
-                pathname:req.url,  //获取当前路径用于选中菜单
-                userInfo:info.data.data,
-                ifLogin:false
-            }
+            returnData.ifLogin = false;
         }
         return returnData;
     }
@@ -113,33 +121,26 @@ export default class Index extends Component{
         console.log(props);
         this.state = {
             ifLogin:props.ifLogin,
-            longinUserInfo:props.userInfo
+            longinUserInfo:props.userInfo,
+            articleList:props.articleList
         }
     }
 
     componentDidMount(){
 
-        window.onscroll = debounce();
-
-        //防抖函数
-        function debounce(){
-            var time;
-            return function(){
-                if(time) clearTimeout(time);
-
-                time = setTimeout(function(){
-                    var st = document.documentElement.scrollTop;
-                    var ch = document.documentElement.clientHeight;
-                    var bh = document.body.clientHeight;
-                    //判断滚动条是否滚动到底
-                    if(st+ch===bh){
-                        console.log("到底了");
-                    }
-                },100)
-            }
-        }
     }
     login = ()=>{
         axios.post("/api/getGithubCode")
+    }
+
+    //点赞
+    handleSuppert = (e,id)=>{
+        e.stopPropagation()
+        alert(id)
+    }
+
+    //跳转到阅读文章页面
+    toArticlePage = (id)=>{
+        window.location = "/article/"+id
     }
 }

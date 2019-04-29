@@ -6,7 +6,13 @@
     padding-top: 80px;
     //display: flex;
     padding-bottom: 20px;
-    overflow: hidden;
+    //overflow: hidden;
+    &::after{
+        display: block;
+        content: "";
+        height: 0;
+        clear: both;
+    }
     .common-main-content{
         width: 700px;
         //height: 1000px;
@@ -33,6 +39,10 @@
                     display: inline-block;
                     .title{
                         color:#333;
+                        font-weight: 700;
+                        font-size: 20px;
+                        line-height: 32px;
+                        padding-bottom: 10px;
                     }
                     .describe{
                         color:@default-color;
@@ -68,6 +78,8 @@
         width: 240px;
         float: right;
         margin-left:20px;
+        position: sticky;
+        top: 80px;
         .title{
             border-bottom: 1px solid @background-color;
             padding: 10px 15px;

@@ -54,7 +54,7 @@ exports.okData = function(code,message,data){
 exports.notLoginData = function(){
     return {
         code:"10001",
-        message:"不好意思，您没有登录！",
+        message:"不好意思，您没有登录，请先返回首页登录！",
         data:{}
     }
 }
