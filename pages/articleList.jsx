@@ -6,19 +6,20 @@ import Nav from "../component/nav/nav";
 import dynamic from 'next/dynamic';
 import "../style/articleList.less";
 import {formatDate} from "../common/util";
-import { Modal } from 'antd';
+import Axios from "../common/Axios";
+import { Modal,notification } from 'antd';
 
 export default class Index extends Component{
     render(){
         var {articleList} = this.state;
         console.log(articleList);
-        return <div>
+        return <div className="c-article-list">
             {/* 导航部分内容 */}
             <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo}/>
             <div className="common-content-box">
                 <div className="c-content-list radio5">
                     {/* 文章列表排序 */}
-                    {articleList.sort((a,b)=>{return b.createTime-a.createTime}).map(list=>{
+                    {articleList.length?articleList.sort((a,b)=>{return b.createTime-a.createTime}).map(list=>{
                         return <div className="article-item" key={list.id} onClick={()=>{this.toArticlePage(list)}}>
                             <div className="share-info"><span className="share-title-color">作者</span> · {list.author} · {formatDate(list.createTime)}</div>
                             <div className="content-list-f">
@@ -28,7 +29,7 @@ export default class Index extends Component{
                                 <div className="fa fa-trash fa-icon" title="删除" onClick={(e)=>{this.deleteArticle(e,list)}}></div>
                             </div>
                         </div>
-                    })}
+                    }):<div className="empty-list">暂无文章</div>}
                 </div>
             </div>
         </div>
@@ -85,11 +86,12 @@ export default class Index extends Component{
     //跳转到编辑文章页面
     toArticlePage = (list)=>{
         //Router.push();
-        location.href = "/article?id="+list.id
+        location.href = "/editor/"+list.id
     }
 
     //删除文章入口
     deleteArticle = (e,list)=>{
+        var _self = this;
         e.stopPropagation();
         Modal.confirm({
             title: '提示',
@@ -99,13 +101,31 @@ export default class Index extends Component{
             onOk:()=>{
                 //alert(list.id);
                 return new Promise(function(resolve){
-                    setTimeout(function(){
-                        console.log(list.id);
+                    Axios({
+                        url:"/api/deleteArticle",
+                        data:list
+                    }).then(()=>{
+                        notification.success({
+                            message: '提示',
+                            description: '删除成功',
+                            duration: 1,
+                        });
+                        _self.getArticalList();
                         resolve();
-                        
-                    },1000)
+                    });
                 });
             }
           });
+    }
+
+    //删除后重新获取文章列表
+    getArticalList = ()=>{
+        Axios({
+            url:"/api/getArticleList",
+        }).then((res)=>{
+            this.setState({
+                articleList:res.data.data
+            });
+        });
     }
 }

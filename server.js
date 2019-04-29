@@ -37,10 +37,17 @@ function startServer(req,res){
     */
     server.use("/api",common);
 
+    //编辑文章地址
+    server.use("/editor/:id",function(req,res){
+        console.log(req.params)
+        app.render(req, res, '/editor', req.params)
+    });
+
+    //阅读文章地址
     server.use("/article/:id",function(req,res){
         console.log(req.params)
         app.render(req, res, '/article', req.params)
-    })
+    });
 
     //next.js服务器渲染统一走默认配置
     server.get("*",function(req,res){

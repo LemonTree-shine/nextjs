@@ -237,6 +237,32 @@ common.use("/getArticleList",function(req,res){
             res.send(dataStr);
         }
     });
+});
+
+//删除文章
+common.use("/deleteArticle",function(req,res){
+    let params = JSON.parse(req.body);
+    if(!req.session.loginName){
+        res.send(JSON.stringify(config.notLoginData())); 
+        return;
+    }
+
+    var deleteSql = `DELETE FROM article_list WHERE id = '${params.id}'`;
+    sqlPoor.query(deleteSql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var filePath = config.articlePath+"/"+params.filename+".md";
+            fs.unlink(filePath,(err)=>{
+                if(err){
+                    res.send(JSON.stringify(config.serverErr(err)));
+                }else{
+                    var dataStr = JSON.stringify(config.okData("0","删除成功",{}));
+                    res.send(dataStr);
+                }
+            });
+        }
+    });
 })
 
 module.exports = common;
