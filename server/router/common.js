@@ -202,7 +202,9 @@ common.use("/readArticle",function(req,res){
     let params = JSON.parse(req.body);
     let id = params.id;
 
-    var sql = `SELECT * FROM article_list WHERE id=${id}`;
+    // var sql = `SELECT * FROM article_list WHERE id=${id}`;
+    //关联查询
+    var sql = `SELECT * FROM article_list INNER JOIN user_info on article_list.userId = user_info.id WHERE article_list.id=${id}`;
     sqlPoor.query(sql,(err,data)=>{
         
         if(err){
