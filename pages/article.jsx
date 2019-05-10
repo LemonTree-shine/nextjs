@@ -7,7 +7,11 @@ import "../style/article.less";
 export default class Index extends Component{
     render(){
         return  <div id="layout" className="c-editor-article">
-            <div>{this.state.articleInfo.title}</div>
+            <div className="article-title-box">
+                <div className="title">
+                    {this.state.articleInfo.title}
+                </div>
+            </div>
             <div id="test-editormd" >
                 <textarea id="atricle-content"></textarea>
             </div>
