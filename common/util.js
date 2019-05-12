@@ -16,7 +16,8 @@ export function formatDate(date){
 }
 
 /**
- * 
+ * 时间转化成几分钟前，几小时前，几天前
+ * @param date
  */
 
 export function timeStr(date){

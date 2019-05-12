@@ -2,15 +2,20 @@ import {Component} from "react";
 import Axios from "../common/Axios";
 import { Button, notification } from 'antd';
 import "../style/article.less";
+import {formatDate} from "../common/util";
 
 
 export default class Index extends Component{
     render(){
+        var {articleInfo} = this.state;
         return  <div id="layout" className="c-editor-article">
             <div className="article-title-box">
                 <div className="title">
-                    {this.state.articleInfo.title}
+                    {articleInfo.title}
                 </div>
+                {articleInfo.author?<div className="userInfo">
+                    作者：<a href={articleInfo.html_url} target="_blank">{articleInfo.author}</a>&nbsp;&nbsp;&nbsp;&nbsp;时间: {formatDate(articleInfo.createTime)}
+                </div>:null}
             </div>
             <div id="test-editormd" >
                 <textarea id="atricle-content"></textarea>
