@@ -15,12 +15,6 @@ export default function Axios(option){
                     description: res.data.message,
                     duration: 1,
                 });
-                if(res.data.code==="10001"){
-                    setTimeout(function(){
-                        location.href = location.origin
-                    },1000);
-                    
-                }
             }else{
                 resolve(res.data)
             }

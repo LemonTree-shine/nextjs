@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Nav from "../component/nav/nav";
 import dynamic from 'next/dynamic';
 import "../style/index.less";
-import {timeStr} from "../common/util"
+import {timeStr} from "../common/util";
+import Axios from "../common/Axios";
 
 // const Nav = dynamic(import('../component/nav/nav'),{
 //     ssr:false
@@ -136,7 +137,12 @@ export default class Index extends Component{
     //点赞
     handleSuppert = (e,id)=>{
         e.stopPropagation()
-        alert(id)
+        Axios({
+            url:"/api/supportArticle",
+            data:{
+                id:id
+            }
+        })
     }
 
     //跳转到阅读文章页面

@@ -130,9 +130,9 @@ common.use("/publishArticle",function(req,res){
         //获取发布人的id
         sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
             var userid = data[0].id;
-            var insertSql = `INSERT INTO article_list (title,filename,userId,createTime,author)
+            var insertSql = `INSERT INTO article_list (title,filename,userId,createTime,author,support)
                         VALUES
-                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}')`;
+                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}','0')`;
             //发布文章，插入数据库
             sqlPoor.query(insertSql,(err,data)=>{
                 if(err){
@@ -265,6 +265,34 @@ common.use("/deleteArticle",function(req,res){
             });
         }
     });
+});
+
+common.use("/supportArticle",function(req,res){
+    let params = JSON.parse(req.body);
+    if(!req.session.loginName){
+        res.send(JSON.stringify(config.notLoginData())); 
+        return;
+    }
+
+    var sql = `SELECT * FROM support WHERE Aid=${params.id} AND login_name='${req.session.loginName}'`;
+
+    sqlPoor.query(sql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            //如果有，则说明已经点过赞了
+            if(data.length){
+                var dataStr = JSON.stringify(config.okData("0","您已经点过赞了哦，亲！",{}));
+                res.send(dataStr);
+            }else{
+                //如果查不到数据，说明没有点过赞，
+                var dataStr = JSON.stringify(config.okData("0","点赞成功了哦！",{}));
+                res.send(dataStr);
+            }
+        }
+    });
+    
+
 })
 
 module.exports = common;
