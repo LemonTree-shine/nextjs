@@ -27,6 +27,7 @@ exports.connecMysql  = function(){
         user            : 'root',
         password        : '123456',
         database        : 'bloc_center',
+        multipleStatements: true,
         connectionLimit: 100,
         connectTimeout: 60 * 60 * 1000,
         acquireTimeout: 60 * 60 * 1000,
