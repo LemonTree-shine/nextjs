@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import "../style/index.less";
 import {timeStr} from "../common/util";
 import Axios from "../common/Axios";
+import { notification } from 'antd';
 
 // const Nav = dynamic(import('../component/nav/nav'),{
 //     ssr:false
@@ -130,6 +131,18 @@ export default class Index extends Component{
     componentDidMount(){
 
     }
+
+    //查询文章列表
+    reqArticleList = ()=>{
+        Axios({
+            url:"/api/getArticleList"
+        }).then((res)=>{
+            this.setState({
+                articleList:res.data.data
+            })
+        })
+    }
+
     login = ()=>{
         axios.post("/api/getGithubCode")
     }
@@ -142,7 +155,22 @@ export default class Index extends Component{
             data:{
                 id:id
             }
-        })
+        }).then((data)=>{
+            notification.success({
+                message: '提示',
+                description: data.message,
+                duration: 2,
+            });
+
+            //status==1说明已经点过赞了，不用重新加载
+            if(data.data.status=="1"){
+                return;
+            }
+
+            //点赞后重新加载数据
+            this.reqArticleList();
+            
+        });
     }
 
     //跳转到阅读文章页面

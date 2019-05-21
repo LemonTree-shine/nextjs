@@ -4,3 +4,10 @@
 //console.log(req.body);
 //获取？后面的数据
 //querystring.parse(url.parse(req.url).query)
+
+
+
+错误码定义
+
+0：成功，
+10001：未登录，

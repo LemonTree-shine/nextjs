@@ -267,9 +267,11 @@ common.use("/deleteArticle",function(req,res){
     });
 });
 
+//文章点赞功能
 common.use("/supportArticle",function(req,res){
     let params = JSON.parse(req.body);
-    if(!req.session.loginName){
+    var loginName = req.session.loginName;
+    if(!loginName){
         res.send(JSON.stringify(config.notLoginData())); 
         return;
     }
@@ -278,16 +280,29 @@ common.use("/supportArticle",function(req,res){
 
     sqlPoor.query(sql,(err,data)=>{
         if(err){
-            res.send(JSON.stringify(config.serverErr(err)));
+            res.send(
+                JSON.stringify(config.serverErr(err))
+            );
         }else{
             //如果有，则说明已经点过赞了
             if(data.length){
-                var dataStr = JSON.stringify(config.okData("0","您已经点过赞了哦，亲！",{}));
+                //status=1说明已经点过赞
+                var dataStr = JSON.stringify(config.okData("0","本篇文章您已经点过赞了哦~~",{
+                    status:"1"
+                }));
                 res.send(dataStr);
             }else{
-                //如果查不到数据，说明没有点过赞，
-                var dataStr = JSON.stringify(config.okData("0","点赞成功了哦！",{}));
-                res.send(dataStr);
+                //如果查不到数据，说明没有点过赞;
+                //UPDATE article_list SET support = article_list.support+1 WHERE id = ${params.id};
+                var sql = `UPDATE article_list SET support = article_list.support+1 WHERE id = ${params.id};INSERT INTO support (Aid,login_name) VALUES ('${params.id}','${loginName}');`
+                sqlPoor.query(sql,(err,data)=>{
+                    if(err){
+                        res.send(JSON.stringify(config.serverErr(err)));
+                    }else{
+                        var dataStr = JSON.stringify(config.okData("0","点赞成功，非常感谢您的支持~~",{}));
+                        res.send(dataStr);
+                    }
+                });
             }
         }
     });
