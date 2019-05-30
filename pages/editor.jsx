@@ -9,7 +9,12 @@ export default class Index extends Component{
         return <div className="c-write-article">
             <div className="article-title">
                 <input className="title-input" ref={el=>this.title = el} placeholder="请输入文章标题..." type="text"/>
-                <div className="submit" onClick={this.submitArticle}>发布</div>
+                <div className="submit" onClick={this.submitArticle}>发布</div>&nbsp;&nbsp;
+                <div className="submit uploadImg">
+                    添加图片
+                    <input className="uploadFile" onChange={this.uploadImages} type="file"/>
+                </div>
+                
             </div>
             <div className="box">
                 <div id="editor">
@@ -127,5 +132,9 @@ export default class Index extends Component{
                 location.href = "/articleList";
             },1000)
         });
+    }
+
+    uploadImages = (event)=>{
+        console.log(event.target.files[0])
     }
 }
