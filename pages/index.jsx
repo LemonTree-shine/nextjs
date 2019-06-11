@@ -24,7 +24,7 @@ export default class Index extends Component{
                     {/* <i className="fa fa-car" style={{"color":"red"}}></i> */}
                     <div className="list-title">文章列表</div>
                     <div className="list-box">
-                        {articleList&&articleList.map(list=>{
+                        {articleList&&articleList.sort((a,b)=>{return b.createTime-a.createTime}).map(list=>{
                             return <div className="content-list" key={list.id} onClick={()=>{this.toArticlePage(list.id)}}>
                                 <div className="share-info"><span className="share-title-color">分享</span> · {list.author} · {timeStr(list.createTime)} / javascript · node</div>
                                 <div className="content-list-f">
@@ -107,7 +107,9 @@ export default class Index extends Component{
         var returnData = {
             pathname:req.url,  //获取当前路径用于选中菜单
             userInfo:info.data.data,
-            articleList:articleList.data.data.data,
+            articleList:articleList.data.data.data.filter((article)=>{
+                return article.type==="1"
+            }),
         };
 
         if(info.data.code=="0"){

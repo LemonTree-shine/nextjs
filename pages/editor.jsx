@@ -6,10 +6,12 @@ import { Button, notification } from 'antd';
 
 export default class Index extends Component{
     render(){
+        var id = this.props.url.query.id;
+
         return <div className="c-write-article">
             <div className="article-title">
                 <input className="title-input" ref={el=>this.title = el} placeholder="请输入文章标题..." type="text"/>
-                <div className="submit" onClick={this.submitArticle}>发布</div>&nbsp;&nbsp;
+                <div className="submit" onClick={this.submitArticle}>{id?"修改":"存稿"}</div>&nbsp;&nbsp;
                 <div className="submit uploadImg">
                     添加图片
                     <input className="uploadFile" onChange={this.uploadImages} type="file"/>
@@ -98,13 +100,13 @@ export default class Index extends Component{
                 data:{
                     title:this.title.value,
                     content:this.textarea.value,
-                    id:this.state.articleInfo.id,
+                    id:id,
                     filename:this.state.articleInfo.filename
                 }
             }).then((data)=>{
                 notification.success({
                     message: '提示',
-                    description: '更新成功',
+                    description: '修改成功',
                     duration: 1,
                 });
                 setTimeout(()=>{
@@ -115,17 +117,17 @@ export default class Index extends Component{
             return;
         }
 
-        //发布新的文章
+        //存稿文章
         Axios({
             url:"/api/publishArticle",
             data:{
                 title:this.title.value,
-                content:this.textarea.value
+                content:this.textarea.value,
             }
         }).then((data)=>{
             notification.success({
                 message: '提示',
-                description: '发布成功',
+                description: '保存成功',
                 duration: 1,
             });
             setTimeout(()=>{

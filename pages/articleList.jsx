@@ -28,6 +28,11 @@ export default class Index extends Component{
                             <div className="action-list">
                                 <div className="fa fa-trash fa-icon" title="删除" onClick={(e)=>{this.deleteArticle(e,list)}}></div>
                             </div>
+                            {
+                                list.type==="1"?
+                                    <div className="publishBtn readyPublish" onClick={(e)=>{this.publish(e,list)}}>已发布</div>:<div className="publishBtn" onClick={(e)=>{this.publish(e,list)}}>未发布</div>
+                            }
+                            
                         </div>
                     }):<div className="empty-list">暂无文章</div>}
                 </div>
@@ -126,6 +131,26 @@ export default class Index extends Component{
             this.setState({
                 articleList:res.data.data
             });
+        });
+    }
+
+    //发布
+    publish = (e,list)=>{
+        var _self = this;
+        e.stopPropagation();
+        Axios({
+            url:"/api/publishUnpublishArticle",
+            data:{
+                id:list.id,
+                type:list.type==="0"?"1":"0"
+            }
+        }).then(()=>{
+            notification.success({
+                message: '提示',
+                description: '操作成功',
+                duration: 1,
+            });
+            _self.getArticalList();
         });
     }
 }

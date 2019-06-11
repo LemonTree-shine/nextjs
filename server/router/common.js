@@ -112,7 +112,7 @@ common.use("/getToken",function(requestBody,res){
     });   
 });
 
-//发布文章
+//存稿文章
 common.use("/publishArticle",function(req,res){
     //console.log(req.session.loginName)
     //console.log(JSON.parse(req.body));
@@ -130,9 +130,9 @@ common.use("/publishArticle",function(req,res){
         //获取发布人的id
         sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
             var userid = data[0].id;
-            var insertSql = `INSERT INTO article_list (title,filename,userId,createTime,author,support)
+            var insertSql = `INSERT INTO article_list (title,filename,userId,createTime,author,support,type)
                         VALUES
-                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}','0')`;
+                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}','0','0')`;
             //发布文章，插入数据库
             sqlPoor.query(insertSql,(err,data)=>{
                 if(err){
@@ -158,6 +158,31 @@ common.use("/publishArticle",function(req,res){
     }
     
 });
+
+//发布,取消发布接口
+common.use("/publishUnpublishArticle",function(req,res){
+    // if(!req.session.loginName){
+    //     res.send(JSON.stringify(config.notLoginData())); 
+    //     return;
+    // }
+    try{
+        let params = JSON.parse(req.body);
+
+        var updateSql = `UPDATE article_list SET type = '${params.type}' WHERE id = '${params.id}'`
+
+        //发布文章，插入数据库
+        sqlPoor.query(updateSql,(err,data)=>{
+            if(err){
+                res.send(JSON.stringify(config.serverErr(err)));
+            }else{
+                res.send(JSON.stringify(config.okData("0","成功",{data:"发布成功"})));
+            }
+            
+        })
+    }catch{
+        res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
+    }
+})
 
 //更新文章
 common.use("/uploadArticle",function(req,res){

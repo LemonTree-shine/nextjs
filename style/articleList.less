@@ -13,9 +13,23 @@
                 padding: 12px 20px;
                 border-bottom: 1px solid @background-color;
                 background: #ffffff;
+                position: relative;
                 cursor: pointer;
                 &:hover{
                     background: @list-hover-bgcolor;
+                }
+                .publishBtn{
+                    position: absolute;
+                    padding: 5px 18px;
+                    color: #ffffff;
+                    background: @main-font-color;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    top: 35px;
+                    right: 30px;
+                }
+                .readyPublish{
+                    background: #ccc !important;
                 }
                 .content-list-f{
                     width: 520px;
