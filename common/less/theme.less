@@ -100,6 +100,26 @@ a.active{
     color:@main-font-color;
 }
 
+.clearBoth:after{
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.default-btn{
+    background: #007fff;
+    border: none;
+    color: #ffffff;
+    padding: 3px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    &:active{
+        background: #0070ff;
+    }
+}
+
 
 @import "/static/font-awesome/css/font-awesome.min.css";
 @font-face {

@@ -161,10 +161,10 @@ common.use("/publishArticle",function(req,res){
 
 //发布,取消发布接口
 common.use("/publishUnpublishArticle",function(req,res){
-    // if(!req.session.loginName){
-    //     res.send(JSON.stringify(config.notLoginData())); 
-    //     return;
-    // }
+    if(!req.session.loginName){
+        res.send(JSON.stringify(config.notLoginData())); 
+        return;
+    }
     try{
         let params = JSON.parse(req.body);
 
@@ -333,6 +333,28 @@ common.use("/supportArticle",function(req,res){
     });
     
 
-})
+});
+
+//评论功能
+common.use("/comment",function(req,res){
+    let params = JSON.parse(req.body);
+    var loginName = req.session.loginName;
+    if(!loginName){
+        res.send(JSON.stringify(config.notLoginData())); 
+        return;
+    }
+
+    var sql = `INSERT INTO commit (Aid,content,login_name,Plogin_ame,root_login_name) VALUES ('${params.Aid}','${params.content}','${loginName}','${params.PloginName||""}','${params.rootLoginName||""}');`
+
+    sqlPoor.query(sql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData("0","评论成功",{}));
+            res.send(dataStr);
+        }
+    })
+    
+});
 
 module.exports = common;
