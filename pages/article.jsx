@@ -3,6 +3,7 @@ import Axios from "../common/Axios";
 import { Button, notification } from 'antd';
 import "../style/article.less";
 import {formatDate} from "../common/util";
+import Commit from "../component/commit/commit";
 
 
 export default class Index extends Component{
@@ -20,6 +21,7 @@ export default class Index extends Component{
             <div id="test-editormd" >
                 <textarea id="atricle-content"></textarea>
             </div>
+            <Commit submit = {this.submitComment}/>
         </div>
     }
     static async getInitialProps({ req }) {
@@ -62,6 +64,35 @@ export default class Index extends Component{
             tex             : true,  // 默认不解析
             flowChart       : true,  // 默认不解析
             sequenceDiagram : true,  // 默认不解析
+        });
+    }
+
+    //评论功能
+    submitComment = (content)=>{
+        var Aid = this.props.url.query.id;
+
+        if(!content){
+            notification.error({
+                message: '提示',
+                description: '评论内容不能为空！',
+                duration: 1,
+            })
+            return 
+        }
+
+        Axios({
+            url:"/api/comment",
+            data:{
+                Aid:Aid,
+                content:content,
+                //rootLoginName:rootLoginName
+            }
+        }).then((data)=>{
+            notification.success({
+                message: '提示',
+                description: '评论成功！',
+                duration: 1,
+            });
         });
     }
 }
