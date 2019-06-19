@@ -8,7 +8,7 @@ import Commit from "../component/commit/commit";
 
 export default class Index extends Component{
     render(){
-        var {articleInfo} = this.state;
+        var {articleInfo,commitList} = this.state;
         return  <div id="layout" className="c-editor-article">
             <div className="article-title-box">
                 <div className="title">
@@ -21,7 +21,7 @@ export default class Index extends Component{
             <div id="test-editormd" >
                 <textarea id="atricle-content"></textarea>
             </div>
-            <Commit submit = {this.submitComment}/>
+            <Commit submit = {this.submitComment} commitList={commitList}/>
         </div>
     }
     static async getInitialProps({ req }) {
@@ -30,7 +30,8 @@ export default class Index extends Component{
     constructor(props){
         super(props);
         this.state = {
-            articleInfo:{}
+            articleInfo:{},
+            commitList:[]
         }
     }
     
@@ -52,6 +53,8 @@ export default class Index extends Component{
                 articleInfo:data.data
             });
         });
+
+        this.getCommentList(id);
         
     }
 
@@ -68,7 +71,7 @@ export default class Index extends Component{
     }
 
     //评论功能
-    submitComment = (content)=>{
+    submitComment = (content,commit)=>{
         var Aid = this.props.url.query.id;
 
         if(!content){
@@ -88,10 +91,30 @@ export default class Index extends Component{
                 //rootLoginName:rootLoginName
             }
         }).then((data)=>{
+            //评论成功后刷新数据
+            this.getCommentList(Aid);
+
+            //清空textarea数据
+            commit.textarea.value = "";
+            
             notification.success({
                 message: '提示',
                 description: '评论成功！',
                 duration: 1,
+            });
+        });
+    }
+
+    //获取留言列表
+    getCommentList = (Aid)=>{
+        Axios({
+            url:"/api/getCommentList",
+            data:{
+                Aid:Aid
+            }
+        }).then((data)=>{
+            this.setState({
+                commitList:data.data.data
             });
         });
     }
