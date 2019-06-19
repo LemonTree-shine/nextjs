@@ -344,7 +344,17 @@ common.use("/comment",function(req,res){
         return;
     }
 
-    var sql = `INSERT INTO commit (Aid,content,login_name,Plogin_ame,root_login_name) VALUES ('${params.Aid}','${params.content}','${loginName}','${params.PloginName||""}','${params.rootLoginName||""}');`
+    var sql = `INSERT INTO commit (Aid,content,login_name,Plogin_ame,root_login_name,Puid,Pid,Uid,header_url) VALUES (
+        '${params.Aid}',
+        '${params.content}',
+        '${loginName}',
+        '${params.PloginName||""}',
+        '${params.rootLoginName||""}',
+        '${params.Puid||""}',
+        '${params.Pid||""}',
+        (SELECT id FROM user_info WHERE login_name='${loginName}'),
+        (SELECT avatar_url FROM user_info WHERE login_name='${loginName}')
+    );`
 
     sqlPoor.query(sql,(err,data)=>{
         if(err){
@@ -356,5 +366,23 @@ common.use("/comment",function(req,res){
     })
     
 });
+
+//获取评论列表
+common.use("/getCommentList",function(req,res){
+    let params = JSON.parse(req.body);
+
+    var sql = `SELECT * FROM commit WHERE Aid = '${params.Aid}'`
+
+    sqlPoor.query(sql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData("0","评论成功",{
+                data
+            }));
+            res.send(dataStr);
+        }
+    })
+})
 
 module.exports = common;
