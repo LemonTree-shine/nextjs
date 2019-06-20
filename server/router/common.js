@@ -150,7 +150,7 @@ common.use("/publishArticle",function(req,res){
                 
             })
         });  
-    }catch{
+    }catch(err){
         res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
     }
     
@@ -176,7 +176,7 @@ common.use("/publishUnpublishArticle",function(req,res){
             }
             
         })
-    }catch{
+    }catch(err){
         res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
     }
 })
@@ -213,7 +213,7 @@ common.use("/uploadArticle",function(req,res){
         
 
         
-    }catch{
+    }catch(err){
         res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
     }
     
