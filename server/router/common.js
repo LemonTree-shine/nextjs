@@ -209,10 +209,7 @@ common.use("/uploadArticle",function(req,res){
                 
             }
             
-        })
-        
-
-        
+        })        
     }catch(err){
         res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
     }
