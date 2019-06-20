@@ -2,6 +2,7 @@ import {Component} from "react";
 import "../style/editor.less";
 import Axios from "../common/Axios";
 import { Button, notification } from 'antd';
+import OSS from "ali-oss";
 
 
 export default class Index extends Component{
@@ -9,12 +10,13 @@ export default class Index extends Component{
         var id = this.props.url.query.id;
 
         return <div className="c-write-article">
+            <input style={{display:"block",height:"0","border":"none"}} type="text"/>
             <div className="article-title">
                 <input className="title-input" ref={el=>this.title = el} placeholder="请输入文章标题..." type="text"/>
                 <div className="submit" onClick={this.submitArticle}>{id?"修改":"存稿"}</div>&nbsp;&nbsp;
                 <div className="submit uploadImg">
                     添加图片
-                    <input className="uploadFile" onChange={this.uploadImages} type="file"/>
+                    <input className="uploadFile" ref={(el)=>{this.uploadFile = el}} onChange={this.uploadImages} type="file"/>
                 </div>
                 
             </div>
@@ -137,6 +139,43 @@ export default class Index extends Component{
     }
 
     uploadImages = (event)=>{
-        console.log(event.target.files[0])
+        var self = this;
+        const client = new OSS({
+            region: 'oss-cn-hangzhou',
+            accessKeyId:"LTAIB7RbgKk58uuP",
+            accessKeySecret:'HTovUZjnrFi9onWhH4bJnOWTb1DxPP',
+            bucket: 'chenze-bloc',
+            endpoint: 'https://oss-cn-hangzhou.aliyuncs.com',
+            secure: true
+        });
+
+        var file = event.target.files[0];
+        var arr = file.name.split(".");
+        var path = "/articleImage/" + arr[0] + "_" + new Date().getTime() + "." + arr[1];
+
+        client.multipartUpload(path, file, {
+            mime: 'image/png'
+        }).then(function (result) {
+            console.log(result.res.requestUrls[0]);
+            var imgUrl = result.res.requestUrls[0];
+
+            var INPUT = document.querySelector("input");
+            INPUT.value = `![](${imgUrl})`;
+            INPUT.select();
+            var ifcopy = document.execCommand("copy");
+            console.log(ifcopy);
+            if(ifcopy){
+                notification.success({
+                    message:"上传成功，路径已复制到粘贴板，按ctrl+v键来粘贴路径即可！",
+                    duration: 2,
+                });
+                self.uploadFile.value = "";
+            }else{
+                notification.error({
+                    message:"上传失败，请重新上传"
+                }); 
+                self.uploadFile.value = "";
+            }
+        })
     }
 }

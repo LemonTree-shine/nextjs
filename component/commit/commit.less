@@ -28,18 +28,23 @@
             .name{
                 color: @main-font-color;
                 font-weight: 700;
+                margin-bottom: 5px;
             }
         }
         .replay-answer{
             text-align: right;
             padding-right: 10px;
             color: @main-font-color;
+            margin-top: 10px;
             cursor: pointer;
             .replay-btn{
                 display: inline-block;
             }
             span{
                 color:@default-color;
+            }
+            .default-font-color{
+                color: @main-font-color;
             }
         }
     }
@@ -65,5 +70,22 @@
             margin-top: 10px;
             float: right;
         }
+    }
+}
+
+.c-ReplyBox{
+    .textarea{
+        display: block;
+        width: 100%;
+        height: 45px;
+        margin-top: 20px;
+        outline: none;
+        padding: 10px;
+        border:1px solid @main-font-color;
+        border-radius: 5px;
+    }
+    .submit-btn{
+        margin-top: 10px;
+        float: right;
     }
 }
