@@ -21,7 +21,11 @@ export default class Index extends Component{
             <div id="test-editormd" >
                 <textarea id="atricle-content"></textarea>
             </div>
-            <Commit submit = {this.submitComment} commitList={commitList}/>
+            <Commit 
+                submit = {this.submitComment} 
+                commitList={commitList}
+                replyComment={this.replyComment}
+            />
         </div>
     }
     static async getInitialProps({ req }) {
@@ -94,8 +98,34 @@ export default class Index extends Component{
             //评论成功后刷新数据
             this.getCommentList(Aid);
 
-            //清空textarea数据
             commit.textarea.value = "";
+            
+            notification.success({
+                message: '提示',
+                description: '评论成功！',
+                duration: 1,
+            });
+        });
+    }
+
+    //回复功能
+    replyComment = (replyItem,content,pid)=>{
+        var Aid = this.props.url.query.id;
+        console.log(replyItem,content);
+
+        Axios({
+            url:"/api/comment",
+            data:{
+                Aid:replyItem.Aid,
+                content:content,
+                Pid:pid,
+                PloginName:replyItem.login_name,
+                Puid:replyItem.Uid,
+                Pheader_url:replyItem.header_url
+            }
+        }).then((data)=>{
+            //评论成功后刷新数据
+            this.getCommentList(Aid);
             
             notification.success({
                 message: '提示',

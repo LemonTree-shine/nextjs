@@ -344,7 +344,7 @@ common.use("/comment",function(req,res){
         return;
     }
 
-    var sql = `INSERT INTO commit (Aid,content,login_name,Plogin_ame,root_login_name,Puid,Pid,Uid,header_url) VALUES (
+    var sql = `INSERT INTO commit (Aid,content,login_name,Plogin_name,root_login_name,Puid,Pid,Uid,header_url,Pheader_url) VALUES (
         '${params.Aid}',
         '${params.content}',
         '${loginName}',
@@ -353,7 +353,8 @@ common.use("/comment",function(req,res){
         '${params.Puid||""}',
         '${params.Pid||""}',
         (SELECT id FROM user_info WHERE login_name='${loginName}'),
-        (SELECT avatar_url FROM user_info WHERE login_name='${loginName}')
+        (SELECT avatar_url FROM user_info WHERE login_name='${loginName}'),
+        '${params.Pheader_url||""}'
     );`
 
     sqlPoor.query(sql,(err,data)=>{
@@ -371,7 +372,7 @@ common.use("/comment",function(req,res){
 common.use("/getCommentList",function(req,res){
     let params = JSON.parse(req.body);
 
-    var sql = `SELECT * FROM commit WHERE Aid = '${params.Aid}'`
+    var sql = `SELECT * FROM commit WHERE Aid = '${params.Aid}'`;
 
     sqlPoor.query(sql,(err,data)=>{
         if(err){

@@ -21,7 +21,7 @@ export function formatDate(date){
  */
 
 export function timeStr(date){
-    var timeGoOn = new Date().getTime() - date;
+    var timeGoOn = new Date().getTime() - new Date(date).getTime();
 
     var min = timeGoOn/(1000*60);
     var hours = min/60;
@@ -42,3 +42,33 @@ export function timeStr(date){
         return parseInt(hours/24)+"天前";
     }
 }
+
+/**
+ * 重组数组
+ * @param array
+ */
+
+ export function resetArr(arr){
+    var ARR = arr || [];
+    
+    var rootReplyList = [];
+    //找出所有根留言
+    rootReplyList = ARR.filter((list)=>{
+        return list.Pid == false;
+    });
+
+    //循环所有数组
+    ARR.forEach((list,index)=>{
+        if(list.Pid){
+            rootReplyList.forEach((rList)=>{
+                if(rList.id==list.Pid){
+                    if(!rList.childList){
+                        rList.childList = [];
+                    }
+                    rList.childList.push(list);
+                }
+            }) 
+        }
+    });
+    return rootReplyList;
+ }
