@@ -149,10 +149,7 @@ common.use("/publishArticle",function(req,res){
                 }
                 
             })
-        });
-        
-
-        
+        });  
     }catch{
         res.send(JSON.stringify(config.okData("500","服务器出错！",{})));
     }
