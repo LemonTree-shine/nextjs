@@ -130,14 +130,16 @@ common.use("/publishArticle",function(req,res){
         //获取发布人的id
         sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
             var userid = data[0].id;
-            var insertSql = `INSERT INTO article_list (title,filename,userId,createTime,author,support,type)
+            var insertSql = `INSERT INTO article_list (title,filename,userId,createTime,author,support,type,content,commentNum)
                         VALUES
-                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}','0','0')`;
+                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}','0','0','${content}','0')`;
             //发布文章，插入数据库
             sqlPoor.query(insertSql,(err,data)=>{
                 if(err){
                     res.send(JSON.stringify(config.serverErr(err)));
                 }else{
+                    res.send(JSON.stringify(config.okData("0","成功",{data:"发布成功"})));
+                    return;
                     fs.writeFile(`${config.articlePath}/${String(time)}.md`,content,(err)=>{
                         if(err){
                             res.send(JSON.stringify(config.serverErr(err)));
@@ -185,20 +187,22 @@ common.use("/publishUnpublishArticle",function(req,res){
 common.use("/uploadArticle",function(req,res){
     //console.log(req.session.loginName)
     //console.log(JSON.parse(req.body));
-    // if(!req.session.loginName){
-    //     res.send(JSON.stringify(config.notLoginData())); 
-    //     return;
-    // }
+    if(!req.session.loginName){
+        res.send(JSON.stringify(config.notLoginData())); 
+        return;
+    }
     try{
         let params = JSON.parse(req.body);
 
-        var updateSql = `UPDATE article_list SET title = '${params.title}' WHERE id = '${params.id}'`
+        var updateSql = `UPDATE article_list SET title = '${params.title}',content = '${params.content}' WHERE id = '${params.id}'`
 
         //发布文章，插入数据库
         sqlPoor.query(updateSql,(err,data)=>{
             if(err){
                 res.send(JSON.stringify(config.serverErr(err)));
             }else{
+                res.send(JSON.stringify(config.okData("0","成功",{data:"更新成功"})));
+                return;
                 fs.writeFile(`${config.articlePath}/${params.filename}.md`,params.content,(err)=>{
                     if(err){
                         res.send(JSON.stringify(config.serverErr(err)));
@@ -231,12 +235,9 @@ common.use("/readArticle",function(req,res){
         }else{
             if(data.length){
                 var resData = data[0];
-                var content = fs.readFileSync(`${config.articlePath}/${resData.filename}.md`,'utf-8');
+                //var content = fs.readFileSync(`${config.articlePath}/${resData.filename}.md`,'utf-8');
 
-                res.send(JSON.stringify(config.okData("0","成功",{
-                    ...resData,
-                    content:content,
-                })));
+                res.send(JSON.stringify(config.okData("0","成功",resData)));
             }else{
                 res.send(JSON.stringify(config.okData("2","文章不存在",{data:"文章不存在"})));
             }
@@ -273,6 +274,9 @@ common.use("/deleteArticle",function(req,res){
         if(err){
             res.send(JSON.stringify(config.serverErr(err)));
         }else{
+            var dataStr = JSON.stringify(config.okData("0","删除成功",{}));
+            res.send(dataStr);
+            return;
             var filePath = config.articlePath+"/"+params.filename+".md";
             fs.unlink(filePath,(err)=>{
                 if(err){
@@ -338,7 +342,7 @@ common.use("/comment",function(req,res){
         return;
     }
 
-    var sql = `INSERT INTO commit (Aid,content,login_name,Plogin_name,root_login_name,Puid,Pid,Uid,header_url,Pheader_url) VALUES (
+    var sql = `UPDATE article_list SET commentNum = article_list.commentNum+1 WHERE id = '${params.Aid}';INSERT INTO commit (Aid,content,login_name,Plogin_name,root_login_name,Puid,Pid,Uid,header_url,Pheader_url) VALUES (
         '${params.Aid}',
         '${params.content}',
         '${loginName}',

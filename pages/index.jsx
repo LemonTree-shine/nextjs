@@ -36,6 +36,7 @@ export default class Index extends Component{
                                 </div> */}
                                 <div className="action-list">
                                     <div className="fa fa-heart fa-icon" onClick={(e)=>{this.handleSuppert(e,list.id)}}> {list.support||"0"}</div>
+                                    <div className="fa fa-comments fa-icon"> {list.commentNum||"0"}</div>
                                     {/* <div className="fa fa-comments fa-icon"> 10</div> */}
                                 </div>
                             </div>
