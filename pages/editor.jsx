@@ -156,11 +156,9 @@ export default class Index extends Component{
         client.multipartUpload(path, file, {
             mime: 'image/png'
         }).then(function (result) {
-            console.log(result.res.requestUrls[0]);
             var imgUrl = result.res.requestUrls[0];
-
             var INPUT = document.querySelector("input");
-            INPUT.value = `![](${imgUrl})`;
+            INPUT.value = `![](${imgUrl.replace(/\?.*$/,"")})`;
             INPUT.select();
             var ifcopy = document.execCommand("copy");
             console.log(ifcopy);

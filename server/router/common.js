@@ -194,7 +194,7 @@ common.use("/uploadArticle",function(req,res){
     try{
         let params = JSON.parse(req.body);
 
-        var updateSql = `UPDATE article_list SET title = '${params.title}',content = '${params.content}' WHERE id = '${params.id}'`
+        var updateSql = `UPDATE article_list SET title = '${params.title}',content = '${params.content.replace(/'/g,`"`)}' WHERE id = '${params.id}'`
 
         //发布文章，插入数据库
         sqlPoor.query(updateSql,(err,data)=>{
