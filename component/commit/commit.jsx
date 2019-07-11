@@ -11,7 +11,7 @@ export default class Commit extends Component{
         var {commitList} = this.state;
         var newCommitList = resetArr(commitList);
         //resetArr(commitList);
-        return <div className="c-commit-box">
+        return <div className="c-commit-box" id="positionId">
             <div className="title">评论</div>
             <div className="commit-list-box">
                 {newCommitList.map((list,index)=>{
