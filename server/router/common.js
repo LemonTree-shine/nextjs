@@ -132,7 +132,7 @@ common.use("/publishArticle",function(req,res){
             var userid = data[0].id;
             var insertSql = `INSERT INTO article_list (title,filename,userId,createTime,author,support,type,content,commentNum)
                         VALUES
-                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}','0','0','${content}','0')`;
+                        ('${title}','${String(time)}','${userid}','${time}','${req.session.loginName}','0','0','${content.replace(/'/g,`"`)}','0')`;
             //发布文章，插入数据库
             sqlPoor.query(insertSql,(err,data)=>{
                 if(err){
