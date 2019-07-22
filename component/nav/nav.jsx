@@ -21,7 +21,7 @@ export default class Nav extends Component{
                                 CLASS = "active";
                             }
                             return <li key={list.url}>
-                                <a className={CLASS} href={list.url}>{list.value}</a>
+                                <a className={CLASS} href={list.url}>{list.name}</a>
                             </li>
                         })}
                     </ul>
@@ -33,21 +33,14 @@ export default class Nav extends Component{
             </div>
         </div>
     }
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+
         this.state = {
             pathname:""
         }
-        this.menu = [{
-            value:"首页",
-            url:"/"
-        },{
-            value:"文章列表",
-            url:"/articleList"
-        },{
-            value:"写文章",
-            url:"/editor"
-        }];
+
+        this.menu = props.menu || [];
 
     }
 
