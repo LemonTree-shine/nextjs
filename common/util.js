@@ -72,3 +72,17 @@ export function timeStr(date){
     });
     return rootReplyList;
  }
+
+
+ /**
+  * 判断是否实在手机上打开的地址
+  * @param url
+  */
+
+  export function ifOpenByPhone(){
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+        return true;
+    }
+    return false;
+  }
+
