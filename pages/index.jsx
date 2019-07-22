@@ -18,7 +18,7 @@ export default class Index extends Component{
         var {articleList} = this.state;
         return <div>
             {/* 导航部分内容 */}
-            <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo}/>
+            <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo} menu={this.state.menu}/>
             <div className="common-content-box">
                 <div className="common-main-content radio5">
                     {/* <i className="fa fa-car" style={{"color":"red"}}></i> */}
@@ -104,6 +104,16 @@ export default class Index extends Component{
             }
         });
 
+        //获取文章列表
+        var menu =  await axios.post("/api/manage/getMenu",{
+            admin:info.data.data.admin
+        },{
+            headers:{
+                "Content-Type":"text/plain; charset=utf-8",
+                "cookie":req.headers.cookie || ""
+            }
+        });
+
 
         var returnData = {
             pathname:req.url,  //获取当前路径用于选中菜单
@@ -111,6 +121,7 @@ export default class Index extends Component{
             articleList:articleList.data.data.data.filter((article)=>{
                 return article.type==="1"
             }),
+            menu:menu.data.data
         };
 
         if(info.data.code=="0"){
@@ -127,12 +138,12 @@ export default class Index extends Component{
         this.state = {
             ifLogin:props.ifLogin,
             longinUserInfo:props.userInfo,
-            articleList:props.articleList
+            articleList:props.articleList,
+            menu:props.menu
         }
     }
 
     componentDidMount(){
-
     }
 
     //查询文章列表

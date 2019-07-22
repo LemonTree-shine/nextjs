@@ -6,6 +6,8 @@ var request = require('request');
 const cookieParser = require("cookie-parser"); //读取cookie
 const session = require('express-session');
 
+var manage = require("./manage");
+
 var fs = require('fs');
 
 var common = express.Router();
@@ -24,6 +26,8 @@ common.use(session({
     name:"Login_session",
     secret:"chenze",
     maxAge: 24*60 * 1000 * 30,
+    resave:true,
+    saveUninitialized:true,
     signed:true,
 }));
 
@@ -382,6 +386,10 @@ common.use("/getCommentList",function(req,res){
             res.send(dataStr);
         }
     })
-})
+});
+
+
+
+common.use("/manage",manage);
 
 module.exports = common;
