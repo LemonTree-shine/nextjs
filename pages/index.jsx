@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Nav from "../component/nav/nav";
 import dynamic from 'next/dynamic';
 import "../style/index.less";
-import {timeStr} from "../common/util";
+import {timeStr,ifOpenByPhone} from "../common/util";
 import Axios from "../common/Axios";
 import { notification } from 'antd';
 
@@ -15,7 +15,7 @@ import { notification } from 'antd';
 export default class Index extends Component{
     render(){
         // console.log(this.props.pathname);
-        var {articleList} = this.state;
+        var {articleList,openByPhone} = this.state;
         return <div>
             {/* 导航部分内容 */}
             <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo} menu={this.state.menu}/>
@@ -45,7 +45,7 @@ export default class Index extends Component{
                     </div>
                     
                 </div>
-                <div className="common-main-tool">
+                <div className={openByPhone?"common-main-tool none":"common-main-tool"}>
                     {/* <a href="/api/getGithubCode">点我</a> */}
                     {this.state.ifLogin?<div className="user-info radio5">
                         <img className="head-img" src={this.state.longinUserInfo.avatar_url}></img>
@@ -134,16 +134,27 @@ export default class Index extends Component{
 
     constructor(props){
         super(props);
-        console.log(props);
+        
         this.state = {
             ifLogin:props.ifLogin,
             longinUserInfo:props.userInfo,
             articleList:props.articleList,
-            menu:props.menu
+            menu:props.menu,
+            openByPhone:false
         }
     }
 
     componentDidMount(){
+        //根据ua判断是否实在手机上打开的浏览器
+        if(ifOpenByPhone()){
+            this.setState({
+                openByPhone:true
+            });
+        }else{
+            this.setState({
+                openByPhone:false
+            }); 
+        }
     }
 
     //查询文章列表
