@@ -15,7 +15,7 @@ export default class Index extends Component{
         console.log(articleList);
         return <div className="c-article-list">
             {/* 导航部分内容 */}
-            <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo}/>
+            <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo}  menu={this.state.menu}/>
             <div className="common-content-box">
                 <div className="c-content-list radio5">
                     {/* 文章列表排序 */}
@@ -56,7 +56,18 @@ export default class Index extends Component{
                 "Content-Type":"text/plain; charset=utf-8",
             }
         });
-        console.log(articleList);
+
+        //获取菜单列表
+        var menu =  await axios.post("/api/manage/getMenu",{
+            admin:info.data.data.admin
+        },{
+            headers:{
+                "Content-Type":"text/plain; charset=utf-8",
+                "cookie":req.headers.cookie || ""
+            }
+        });
+
+
 
         var returnData = {};
 
@@ -66,6 +77,7 @@ export default class Index extends Component{
                 userInfo:info.data.data,
                 ifLogin:true,
                 articleList:articleList.data.data.data,
+                menu:menu.data.data
             }
         }else if(info.data.code=="10001"){
             returnData = {
@@ -73,6 +85,7 @@ export default class Index extends Component{
                 userInfo:info.data.data,
                 ifLogin:false,
                 articleList:articleList.data.data.data,
+                menu:menu.data.data
             }
         }
         return returnData;
@@ -84,7 +97,8 @@ export default class Index extends Component{
         this.state = {
             ifLogin:props.ifLogin,
             longinUserInfo:props.userInfo,
-            articleList:props.articleList
+            articleList:props.articleList,
+            menu:props.menu,
         }
     }
 
