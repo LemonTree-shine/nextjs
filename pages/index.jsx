@@ -104,7 +104,7 @@ export default class Index extends Component{
             }
         });
 
-        //获取文章列表
+        //获取菜单列表
         var menu =  await axios.post("/api/manage/getMenu",{
             admin:info.data.data.admin
         },{
