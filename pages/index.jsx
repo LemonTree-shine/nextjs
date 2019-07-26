@@ -163,7 +163,9 @@ export default class Index extends Component{
             url:"/api/getArticleList"
         }).then((res)=>{
             this.setState({
-                articleList:res.data.data
+                articleList:res.data.data.filter((article)=>{
+                    return article.type==="1"
+                })
             })
         })
     }
