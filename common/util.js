@@ -79,8 +79,9 @@ export function timeStr(date){
   * @param url
   */
 
-  export function ifOpenByPhone(){
-    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+  export function ifOpenByPhone(ua){
+      var UA = ua || navigator.userAgent;
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(UA)){
         return true;
     }
     return false;

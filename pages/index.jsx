@@ -18,8 +18,13 @@ export default class Index extends Component{
         var {articleList,openByPhone} = this.state;
         return <div>
             {/* 导航部分内容 */}
-            <Nav pathname={this.props.pathname} longinUserInfo={this.state.longinUserInfo} menu={this.state.menu}/>
-            <div className="common-content-box">
+            <Nav 
+                pathname={this.props.pathname} 
+                longinUserInfo={this.state.longinUserInfo} 
+                menu={this.state.menu}
+                openByPhone={openByPhone}
+            />
+            <div className={openByPhone?"common-content-box common-content-box-mobile":"common-content-box"}>
                 <div className="common-main-content radio5">
                     {/* <i className="fa fa-car" style={{"color":"red"}}></i> */}
                     <div className="list-title">文章列表</div>
@@ -89,6 +94,7 @@ export default class Index extends Component{
 
     //异步获取数据，在服务端执行
     static async getInitialProps({ req }) {
+        console.log(ifOpenByPhone(req.headers["user-agent"]));
         //获取用户信息
         var info =  await axios.post("/api/getUserInfo",{},{
             headers:{
@@ -121,7 +127,8 @@ export default class Index extends Component{
             articleList:articleList.data.data.data.filter((article)=>{
                 return article.type==="1"
             }),
-            menu:menu.data.data
+            menu:menu.data.data,
+            openByPhone:ifOpenByPhone(req.headers["user-agent"])
         };
 
         if(info.data.code=="0"){
@@ -140,22 +147,11 @@ export default class Index extends Component{
             longinUserInfo:props.userInfo,
             articleList:props.articleList,
             menu:props.menu,
-            openByPhone:false
+            openByPhone:props.openByPhone
         }
     }
 
-    componentDidMount(){
-        //根据ua判断是否实在手机上打开的浏览器
-        if(ifOpenByPhone()){
-            this.setState({
-                openByPhone:true
-            });
-        }else{
-            this.setState({
-                openByPhone:false
-            }); 
-        }
-    }
+    componentDidMount(){}
 
     //查询文章列表
     reqArticleList = ()=>{

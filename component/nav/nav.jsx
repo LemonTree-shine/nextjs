@@ -10,9 +10,9 @@ export default class Nav extends Component{
         path = this.props.pathname
         return <div className="common-nav">
             <div className="nav-content">
-                <div className="nav-logo">
+                {this.props.openByPhone?null:<div className="nav-logo">
                     <img src="/static/image/logo5.png" alt=""/>
-                </div>
+                </div>}
                 <div className="nav-list">
                     <ul>
                         {this.menu.map((list)=>{
