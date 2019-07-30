@@ -2,14 +2,14 @@ import {Component} from "react";
 import Axios from "../common/Axios";
 import { Button, notification } from 'antd';
 import "../style/article.less";
-import {formatDate} from "../common/util";
+import {formatDate,ifOpenByPhone} from "../common/util";
 import Commit from "../component/commit/commit";
 
 
 export default class Index extends Component{
     render(){
-        var {articleInfo,commitList} = this.state;
-        return  <div id="layout" className="c-editor-article">
+        var {articleInfo,commitList,openByPhone} = this.state;
+        return  <div id="layout" className={openByPhone?"c-editor-article c-editor-article-mobile":"c-editor-article"}>
             <div className="article-title-box">
                 <div className="title">
                     {articleInfo.title}
@@ -29,13 +29,16 @@ export default class Index extends Component{
         </div>
     }
     static async getInitialProps({ req }) {
-        return {}
+        return {
+            openByPhone:ifOpenByPhone(req.headers["user-agent"])
+        }
     }
     constructor(props){
         super(props);
         this.state = {
             articleInfo:{},
-            commitList:[]
+            commitList:[],
+            openByPhone:props.openByPhone
         }
     }
     
