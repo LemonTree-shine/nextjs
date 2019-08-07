@@ -1,5 +1,10 @@
 var express = require("express");
 var next = require("next");
+<<<<<<< HEAD
+=======
+var fs = require("fs");
+var path = require("path");
+>>>>>>> a925620c9eafd04f55bfc3c5c70f33ac3c0a425a
 
 //接口路由配置
 var common = require("./server/router/common");
@@ -30,6 +35,18 @@ app.prepare().then(function(req,res){
 
 //处理路由请求等问题
 function startServer(req,res){
+<<<<<<< HEAD
+=======
+    /**
+     * 处理静态页面资源路由
+     */
+    server.use("/staticPage/*",function(req,res){
+        var htmlContent = "";
+        htmlContent = fs.readFileSync(path.join(__dirname,req.originalUrl));
+
+        res.send(htmlContent.toString());
+    });
+>>>>>>> a925620c9eafd04f55bfc3c5c70f33ac3c0a425a
 
     /**
      * 接口处理统一url加上/api 

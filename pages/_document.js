@@ -16,6 +16,7 @@ export default class MyDocument extends Document {
             <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"/>
             <link rel="stylesheet" href="/static/editorMd/css/editormd.css" />
             <link rel="stylesheet" href="/static/editorMd/css/editormd.css" />
+<<<<<<< HEAD
             <script src="/static/editorMd/js/jquery.min.js"></script>
 
             <script src="/static/editorMd/lib/marked.min.js"></script>
@@ -27,6 +28,19 @@ export default class MyDocument extends Document {
             <script src="/static/editorMd/lib/jquery.flowchart.min.js"></script>
 
             <script src="/static/editorMd/editormd.min.js"></script>
+=======
+            <script defer src="/static/editorMd/js/jquery.min.js"></script>
+
+            <script defer src="/static/editorMd/lib/marked.min.js"></script>
+            <script defer src="/static/editorMd/lib/prettify.min.js"></script>
+            <script defer src="/static/editorMd/lib/raphael.min.js"></script>
+            <script defer src="/static/editorMd/lib/underscore.min.js"></script>
+            <script defer src="/static/editorMd/lib/sequence-diagram.min.js"></script>
+            <script defer src="/static/editorMd/lib/flowchart.min.js"></script>
+            <script defer src="/static/editorMd/lib/jquery.flowchart.min.js"></script>
+
+            <script defer src="/static/editorMd/editormd.min.js"></script>
+>>>>>>> a925620c9eafd04f55bfc3c5c70f33ac3c0a425a
             <link rel="dns-prefetch" href="//www.xiaogangji.com"></link>
           </Head>
           <body className="custom_class">
