@@ -1,5 +1,7 @@
 var express = require("express");
 var next = require("next");
+var fs = require("fs");
+var path = require("path");
 
 //接口路由配置
 var common = require("./server/router/common");
@@ -30,6 +32,15 @@ app.prepare().then(function(req,res){
 
 //处理路由请求等问题
 function startServer(req,res){
+    /**
+     * 处理静态页面资源路由
+     */
+    server.use("/staticPage/*",function(req,res){
+        var htmlContent = "";
+        htmlContent = fs.readFileSync(path.join(__dirname,req.originalUrl));
+
+        res.send(htmlContent.toString());
+    });
 
     /**
      * 接口处理统一url加上/api 
