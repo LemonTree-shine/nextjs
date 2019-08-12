@@ -26,7 +26,7 @@ export default class MyDocument extends Document {
             <script defer src="/static/editorMd/lib/flowchart.min.js"></script>
             <script defer src="/static/editorMd/lib/jquery.flowchart.min.js"></script>
 
-            <script defer src="/static/editorMd/editormd.min.js"></script>
+            <script src="/static/editorMd/editormd.min.js"></script>
             <link rel="dns-prefetch" href="//www.xiaogangji.com"></link>
           </Head>
           <body className="custom_class">
