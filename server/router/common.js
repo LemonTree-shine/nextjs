@@ -31,7 +31,7 @@ common.use(session({
     signed:true,
 }));
 
-//所有理由都走这边，以后便于做拦截处理
+//所有路由都走这边，以后便于做拦截处理
 common.use(function(req,res,next){
     next();   
 })
