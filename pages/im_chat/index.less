@@ -1,0 +1,103 @@
+html,body{
+    height: 100%;
+    overflow: scroll;
+    background-color: #f5f5f5;
+}
+.c-chat-page{
+    background-color: #f5f5f5;
+    .msgList{
+        padding-bottom: 100px;
+        .msg-item{
+           display: flex; 
+           font-size: 30px;
+           margin-top: 20px;
+           padding: 0 10px;
+           
+           .text-pop{
+                margin-top: 15px;
+               padding:15px;
+               max-width: 500px;
+               background: #1f73de;
+               color: #ffffff;
+               border-radius: 10px;
+               word-wrap:break-word;
+               position: relative;
+               line-height: 40px;
+           }
+           .msg-head{
+               width: 70px;
+               height: 70px;
+               border-radius: 100%;
+               background: #ccc;
+           }
+        }
+        .msg-out{
+            justify-content:flex-end;
+            .text-pop::after{
+                content: "";
+                display: block;
+                height: 0;
+                width: 0;
+                border-top:10px solid #1f73de;
+                border-right:10px solid transparent;
+                border-bottom:10px solid transparent;
+                border-left:10px solid #1f73de;
+                transform: skewY(-20deg);
+                position: absolute;
+                top: 10px;
+                right: -12px;
+                border-radius: 20%;
+            }
+            .msg-head{
+                margin-left: 25px;
+            }
+        }
+        .msg-in{
+            .text-pop::after{
+                content: "";
+                display: block;
+                height: 0;
+                width: 0;
+                border-top:10px solid #1f73de;
+                border-right:10px solid #1f73de;
+                border-bottom:10px solid transparent;
+                border-left:10px solid transparent;
+                transform: skewY(20deg);
+                position: absolute;
+                top: 10px;
+                left: -12px;
+                border-radius: 20%;
+            }
+            .msg-head{
+                margin-right: 25px;
+            }
+        }
+    }
+    .bottom-input-box{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        background: #ffffff;
+        display: flex;
+        input{
+            display: block;
+            width: 90%;
+            height: 70px;
+            outline: none;
+            border: none;
+            background-color: #f5f5f5;
+            font-size: 40px;
+            text-indent: 10px;
+        }
+        button{
+            width: 10%;
+            font-size: 24px;
+            outline: none;
+            border: none;
+            background: #1f73de;;
+            color: #ffffff;
+        }
+    }
+}

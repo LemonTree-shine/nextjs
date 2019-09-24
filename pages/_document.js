@@ -28,6 +28,7 @@ export default class MyDocument extends Document {
 
             <script src="/static/editorMd/editormd.min.js"></script>
             <link rel="dns-prefetch" href="//www.xiaogangji.com"></link>
+            <script src="http://yx-web.nos.netease.com/official/websdk/NIM_Web_SDK_v4.8.0.js"></script>
           </Head>
           <body className="custom_class">
             <Main />
