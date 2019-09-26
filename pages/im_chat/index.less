@@ -6,27 +6,27 @@ html,body{
 .c-chat-page{
     background-color: #f5f5f5;
     .msgList{
-        padding-bottom: 100px;
+        padding-bottom: 0.5rem;
         .msg-item{
            display: flex; 
-           font-size: 30px;
-           margin-top: 20px;
-           padding: 0 10px;
+           font-size: 0.15rem;
+           margin-top: 0.1rem;
+           padding: 0 0.05rem;
            
            .text-pop{
-                margin-top: 15px;
-               padding:15px;
-               max-width: 500px;
+                margin-top: 0.075rem;
+               padding:0.075rem;
+               max-width: 2.5rem;
                background: #1f73de;
                color: #ffffff;
-               border-radius: 10px;
+               border-radius: 0.05rem;
                word-wrap:break-word;
                position: relative;
-               line-height: 40px;
+               line-height: 0.2rem;
            }
            .msg-head{
-               width: 70px;
-               height: 70px;
+               width: 0.35rem;
+               height: 0.35rem;
                border-radius: 100%;
                background: #ccc;
            }
@@ -38,18 +38,18 @@ html,body{
                 display: block;
                 height: 0;
                 width: 0;
-                border-top:10px solid #1f73de;
-                border-right:10px solid transparent;
-                border-bottom:10px solid transparent;
-                border-left:10px solid #1f73de;
+                border-top:0.05rem solid #1f73de;
+                border-right:0.05rem solid transparent;
+                border-bottom:0.05rem solid transparent;
+                border-left:0.05rem solid #1f73de;
                 transform: skewY(-20deg);
                 position: absolute;
-                top: 10px;
-                right: -12px;
+                top: 0.05rem;
+                right: -0.06rem;
                 border-radius: 20%;
             }
             .msg-head{
-                margin-left: 25px;
+                margin-left: 0.125rem;
             }
         }
         .msg-in{
@@ -58,42 +58,46 @@ html,body{
                 display: block;
                 height: 0;
                 width: 0;
-                border-top:10px solid #1f73de;
-                border-right:10px solid #1f73de;
-                border-bottom:10px solid transparent;
-                border-left:10px solid transparent;
+                border-top:0.05rem solid #1f73de;
+                border-right:0.05rem solid #1f73de;
+                border-bottom:0.05rem solid transparent;
+                border-left:0.05rem solid transparent;
                 transform: skewY(20deg);
                 position: absolute;
-                top: 10px;
-                left: -12px;
+                top: 0.05rem;
+                left: -0.06rem;
                 border-radius: 20%;
             }
             .msg-head{
-                margin-right: 25px;
+                margin-right: 0.125rem;
             }
+        }
+        .msg-time{
+            text-align: center;
+            display: block;
         }
     }
     .bottom-input-box{
         position: fixed;
         bottom: 0;
         width: 100%;
-        padding: 10px;
+        padding: 0.05rem;
         box-sizing: border-box;
         background: #ffffff;
         display: flex;
         input{
             display: block;
             width: 90%;
-            height: 70px;
+            height: 0.35rem;
             outline: none;
             border: none;
             background-color: #f5f5f5;
-            font-size: 40px;
-            text-indent: 10px;
+            font-size: 0.2rem;
+            text-indent: 0.05rem;
         }
         button{
             width: 10%;
-            font-size: 24px;
+            font-size: 0.12rem;
             outline: none;
             border: none;
             background: #1f73de;;
