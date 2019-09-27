@@ -69,4 +69,9 @@ exports.serverErr = function(errdata){
     }
 }
 
-exports.articlePath = "./server/article"
+exports.articlePath = "./server/article";
+
+exports.ImSecrateData = {
+    AppKey:"fd0a8cee8e5f33678eb327a7d592cfe7",
+    AppSecret:"b6d70bdba868"
+}

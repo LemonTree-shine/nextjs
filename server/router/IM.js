@@ -33,8 +33,8 @@ IM.use("/createUser",function(req,res){
         if(data.length){
             res.send(config.okData("","",data[0]));
         }else{
-            var AppKey = "fd0a8cee8e5f33678eb327a7d592cfe7";
-            var AppSecret = "b6d70bdba868";
+            var AppKey = config.ImSecrateData.AppKey;
+            var AppSecret = config.ImSecrateData.AppSecret;
             var Nonce = Math.random().toString(36).substr(2,15);
             var CurTime = parseInt(new Date().getTime() / 1000) + "";
             var CheckSum = sha1(AppSecret+Nonce+CurTime);
@@ -79,6 +79,5 @@ IM.use("/createUser",function(req,res){
 
     })  
 });
-
 
 module.exports = IM;
