@@ -151,7 +151,20 @@ export default class Index extends Component{
         }
     }
 
-    componentDidMount(){}
+    componentDidMount(){
+        //默认创建im聊天用户信息
+        if(this.state.ifLogin){
+            Axios({
+                url:"/api/im/createUser",
+                data:{}
+            }).then((result)=>{
+                console.log(result.data);
+                this.setState({
+                    imInfo:result.data
+                });
+            });
+        }
+    }
 
     //查询文章列表
     reqArticleList = ()=>{

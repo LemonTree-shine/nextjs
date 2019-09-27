@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
 import {connentIm,getUrlParams,formatDate} from "../../common/util";
 import MsgItem from "../../component/msgItem/msgItem";
+import Axios from "../../common/Axios";
 import "./index.less";
 
 export default class Index extends Component{
@@ -24,9 +25,9 @@ export default class Index extends Component{
             
         </div>
     }
-    account = "chenzeddd";
-    token = "cadcf0ca4063a20fb6af5e5b64f88944";
-    toAccount = "chenzeabc";
+    account = "";
+    token = "";
+    toAccount = "";
     scrollMax = 1000000;  //设置一个足够大的值，用于每次发送接收消息的时候，都滚动到底部；
 
     
@@ -46,7 +47,8 @@ export default class Index extends Component{
         self.toAccount = urlparams.toAccount;
 
         //适配手机
-        document.documentElement.style.fontSize = 50*window.devicePixelRatio+"px";
+        var htmlPx = 50*window.devicePixelRatio<100?100:50*window.devicePixelRatio;
+        document.documentElement.style.fontSize = htmlPx+"px";
 
         connentIm.call(this).then(function(){
             self.nim.getHistoryMsgs({
@@ -64,6 +66,11 @@ export default class Index extends Component{
                 }
             })
         });
+
+
+
+        //测试im接口
+        console.log(Axios)
     }
 
     sendText = ()=>{

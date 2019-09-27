@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser"); //读取cookie
 const session = require('express-session');
 
 var manage = require("./manage");
+var IM = require("./IM");
 
 var fs = require('fs');
 
@@ -389,7 +390,11 @@ common.use("/getCommentList",function(req,res){
 });
 
 
-
+//管理平台的接口
 common.use("/manage",manage);
+
+//im相关的接口
+common.use("/im",IM);
+
 
 module.exports = common;
