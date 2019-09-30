@@ -1,7 +1,8 @@
 import React,{ Component } from 'react';
-import {connentIm,getUrlParams,formatDate} from "../../common/util";
+import {connentIm,getUrlParams,formatDate,inChatRoomWarning} from "../../common/util";
 import MsgItem from "../../component/msgItem/msgItem";
 import Axios from "../../common/Axios";
+import axios from "axios";
 import "./index.less";
 
 export default class Index extends Component{
@@ -10,8 +11,13 @@ export default class Index extends Component{
             <div className="msgList">
                 {this.state.msgList.sort(function(a,b){
                     return a.time-b.time
-                }).map((item)=>{
-                    return <MsgItem item={item}/>
+                }).map((item,index)=>{
+                    return <MsgItem 
+                        item={item}
+                        userInfo = {this.state.userInfo}
+                        accountInfo = {this.state.accountInfo}
+                        key = {index}
+                    />
                 })}
             </div>
             <div className="bottom-input-box">
@@ -30,21 +36,66 @@ export default class Index extends Component{
     toAccount = "";
     scrollMax = 1000000;  //设置一个足够大的值，用于每次发送接收消息的时候，都滚动到底部；
 
-    
-    constructor(){
-        super();
-        this.state = {
-            msgList:[]
+    static async getInitialProps({ req }) {
+        var info =  await axios.post("/api/getUserInfo",{},{
+            headers:{
+                "Content-Type":"text/plain; charset=utf-8",
+                "cookie":req.headers.cookie || ""
+            }
+        });
+
+        var resultData = {
+            userInfo:info.data.data
         }
-        
+
+        return resultData
+    }
+    
+    
+    constructor(props){
+        super(props);
+        this.state = {
+            msgList:[], //消息列表
+            userInfo:props.userInfo,  //登录的用户信息
+            accountInfo:{}   //对方的用户信息
+        }
+        console.log(props);
     }
 
     componentDidMount(){
         var self = this;
-        var urlparams = getUrlParams();
-        self.account = urlparams.account;
-        self.token = urlparams.token;
-        self.toAccount = urlparams.toAccount;
+        // var urlparams = getUrlParams();
+        // self.account = urlparams.account;
+        // self.token = urlparams.token;
+        // self.toAccount = urlparams.toAccount;
+
+        //获取用户im信息
+        console.log(JSON.parse(localStorage.getItem("userImInfo")));
+        var userInfo = JSON.parse(localStorage.getItem("userImInfo"));
+        self.account = userInfo.accid;
+        self.token = userInfo.token;
+
+        //判断是不是博主
+        if(userInfo.name==="LemonTree-shine"){
+            var urlparams = getUrlParams();
+            //设置对方用户
+            self.toAccount = urlparams.toAccount;
+
+            //获取对方信息
+            this.getAccountInfo(urlparams.loginName);
+        }else{
+            // accid: "9jrgxa53yqi"
+            //博主的账户信息
+            var info = {
+                name:"LemonTree-shine",
+                accid:"9jrgxa53yqi"
+            }
+            //获取博主信息
+            this.getAccountInfo(info.name);
+
+            //设置所要发送的人
+            self.toAccount = info.accid
+        }
 
         //适配手机
         var htmlPx = 50*window.devicePixelRatio<100?100:50*window.devicePixelRatio;
@@ -61,16 +112,33 @@ export default class Index extends Component{
                     self.setState({
                         msgList:obj.msgs
                     },()=>{
+                        if(obj.msgs.length===0){
+                            var custom = {
+                                type:"system",
+                                data:{
+                                    content:inChatRoomWarning
+                                }
+                            }
+                            self.sendCustomInfo(custom);
+                        }
                         self.scrollToBottom();
                     });
                 }
             })
         });
+    }
 
-
-
-        //测试im接口
-        console.log(Axios)
+    getAccountInfo = (loginName)=>{
+        Axios({
+            url:"/api/getUserInfo",
+            data:{
+                loginName:loginName
+            }
+        }).then((result)=>{
+            this.setState({
+                accountInfo:result.data
+            });
+        });
     }
 
     sendText = ()=>{
@@ -80,8 +148,7 @@ export default class Index extends Component{
         var sortMsgList = this.state.msgList.sort(function(a,b){
             return a.time-b.time
         });
-
-        if(Date.now()-sortMsgList[sortMsgList.length-1].time>60*5*1000){
+        if(!sortMsgList.length||Date.now()-sortMsgList[sortMsgList.length-1].time>60*5*1000){
             var custom = {
                 type:"time",
                 time:Date.now()

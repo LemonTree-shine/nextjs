@@ -41,7 +41,12 @@ common.use(function(req,res,next){
 common.use("/getUserInfo",function(req,res){
     //判断session是否存在
     if(req.session.loginName){
-        sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${req.session.loginName}'`,(err,data)=>{
+        var reqParams = JSON.parse(req.body);
+        var searchName = req.session.loginName;
+        if(reqParams.loginName){
+            searchName = reqParams.loginName;
+        }
+        sqlPoor.query(`SELECT * FROM user_info WHERE login_name='${searchName}'`,(err,data)=>{
             if(err) console.log(err);
             if(data.length){
                 res.send(JSON.stringify(config.okData("0","成功",data[0])));

@@ -149,3 +149,5 @@ export function getUrlParams(href){
     return urlParams;
 }
 
+export const inChatRoomWarning = "欢迎来到情感直播间，有什么问题尽情发问吧~~";
+

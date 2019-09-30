@@ -161,6 +161,8 @@ export default class Index extends Component{
                 console.log(result.data);
                 this.setState({
                     imInfo:result.data
+                },()=>{
+                    localStorage.setItem("userImInfo",JSON.stringify(result.data));
                 });
             });
         }
