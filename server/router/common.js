@@ -394,6 +394,22 @@ common.use("/getCommentList",function(req,res){
     })
 });
 
+//获取已经登录的用户列表
+common.use("/getUserList",function(req,res){
+    var sql = `SELECT * FROM im_info INNER JOIN user_info on im_info.uid = user_info.id`;
+
+    sqlPoor.query(sql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData("0","查询成功",{
+                data
+            }));
+            res.send(dataStr);
+        }
+    })
+})
+
 
 //管理平台的接口
 common.use("/manage",manage);

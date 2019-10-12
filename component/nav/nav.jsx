@@ -39,8 +39,17 @@ export default class Nav extends Component{
         this.state = {
             pathname:""
         }
+        console.log(props);
+        //判断是否登录
+        if(props.longinUserInfo.login_name){
+            this.menu = props.menu || [];
+        }else{
+            this.menu = props.menu.filter((item)=>{
+                return item.control === "all" && item.login!==1
+            });
+        }
 
-        this.menu = props.menu || [];
+        
 
     }
 
