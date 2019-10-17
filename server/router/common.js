@@ -408,7 +408,26 @@ common.use("/getUserList",function(req,res){
             res.send(dataStr);
         }
     })
-})
+});
+
+//更新邮箱
+common.use("/updateEmail",function(req,res){
+    let params = JSON.parse(req.body);
+    var loginName = req.session.loginName;
+
+    var sql = `UPDATE user_info SET email='${params.email}' WHERE login_name='${loginName}'`
+
+    sqlPoor.query(sql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData("0","更新成功",{
+                data
+            }));
+            res.send(dataStr);
+        }
+    })
+});
 
 
 //管理平台的接口

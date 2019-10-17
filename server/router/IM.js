@@ -7,13 +7,14 @@ const cookieParser = require("cookie-parser"); //读取cookie
 const session = require('express-session');
 var fs = require('fs');
 var sha1 = require('sha1');
+var nodemailer = require("nodemailer");
 
 var IM = express.Router();
 
 //链接数据库
 let sqlPoor = config.connecMysql();
 
-
+//创建im信息
 IM.use("/createUser",function(req,res){
 
     if(!req.session.loginName){
@@ -78,6 +79,33 @@ IM.use("/createUser",function(req,res){
         }
 
     })  
+});
+
+IM.use("/sendEmail",function(req,res){
+    var params = JSON.parse(req.body);
+    if(!req.session.loginName){
+        res.send(JSON.stringify(config.notLoginData())); 
+        return;
+    }
+    if(!params.email){
+        res.send(JSON.stringify(config.serverErr({},"邮箱地址不能为空")));
+        return;
+    }
+    
+    const mailTransport = nodemailer.createTransport(config.emailConfig);
+    
+    mailTransport.sendMail({
+        from: '"lemonTree-shine(陈泽)" <18815288453@163.com>', // sender address
+        to: params.email, // list of receivers
+        subject: 'IM消息通知', // Subject line
+        html: '收到来自网站<a href="http://www.xiaogangji.com/im_chat/im_chat">http://www.xiaogangji.com/im_chat/im_chat</a>的消息，赶紧去看看吧！' // html body
+    }, (error, info = {}) => {
+        if(error){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            res.send(config.okData("","发送成功",{}));
+        }
+    });
 });
 
 module.exports = IM;

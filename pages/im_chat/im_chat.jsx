@@ -2,6 +2,7 @@ import React,{ Component } from 'react';
 import {connentIm,getUrlParams,formatDate,inChatRoomWarning} from "../../common/util";
 import MsgItem from "../../component/msgItem/msgItem";
 import Axios from "../../common/Axios";
+import {notification } from 'antd';
 import axios from "axios";
 import "./index.less";
 
@@ -144,6 +145,7 @@ export default class Index extends Component{
     sendText = ()=>{
         var self = this;
         if(!self.Input.value) return;
+        
         //判断距离最后一条消息的记录是否超过5分钟，如果超过5分钟，则推一条时间
         var sortMsgList = this.state.msgList.sort(function(a,b){
             return a.time-b.time
@@ -173,12 +175,42 @@ export default class Index extends Component{
                     self.setState({
                         msgList:msgList
                     },()=>{
+                        if(!sessionStorage.getItem("send_email")){
+                            self.sendEmail();
+                        }
                         self.Input.value = "";
                         self.scrollToBottom();
                     });
                 }
             });
         } 
+    }
+
+    sendEmail = ()=>{
+        var {accountInfo} = this.state;
+        if(accountInfo.email&&/.+@.+/.test(accountInfo.email)){
+            Axios({
+                url:"/api/im/sendEmail",
+                data:{
+                    email:accountInfo.email
+                }
+            }).then((result)=>{
+                sessionStorage.setItem("send_email","1")
+                notification.success({
+                    message: '提示',
+                    description: "对方已收到邮件消息，看到邮件会及时回复的哦！",
+                    duration: 2,
+                });
+            });
+        }else{
+            sessionStorage.setItem("send_email","1")
+            notification.error({
+                message: '提示',
+                description: "对方并没有邮箱，你发的消息对方无法接收到通知！",
+                duration: 2,
+            });
+        }
+        
     }
 
     sendCustomInfo = (custom)=>{

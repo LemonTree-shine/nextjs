@@ -61,17 +61,31 @@ exports.notLoginData = function(){
 }
 
 //返回服务器出错问题
-exports.serverErr = function(errdata){
+exports.serverErr = function(errdata,errMessage){
     return {
         code:"999",
-        message:"服务端出错，请及时联系管理员",
+        message:errMessage||"服务端出错，请及时联系管理员",
         data:errdata
     }
 }
 
 exports.articlePath = "./server/article";
 
+
+//im的appKey和AppSecret
 exports.ImSecrateData = {
     AppKey:"fd0a8cee8e5f33678eb327a7d592cfe7",
     AppSecret:"b6d70bdba868"
 }
+
+
+exports.emailConfig = {
+    host : 'smtp.163.com',
+    port: 465,
+    secure: true,
+    auth : {
+        user : '18815288453@163.com', //发送邮件的邮箱
+        pass : 'Wscz1993' //第三方授权密码，POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务
+    },
+}
+

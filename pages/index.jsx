@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import "../style/index.less";
 import {timeStr,ifOpenByPhone} from "../common/util";
 import Axios from "../common/Axios";
-import { notification } from 'antd';
+import { notification,Modal, Button } from 'antd';
 
 // const Nav = dynamic(import('../component/nav/nav'),{
 //     ssr:false
@@ -89,6 +89,19 @@ export default class Index extends Component{
                     </div>
                 </div>
             </div>
+        
+        
+            <Modal
+                title="提示"
+                visible={this.state.showMask}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+                okText="确认"
+                cancelText="取消"
+            >
+                <p>由于您的登录信息中没有邮箱地址，为防止在留言或发送IM消息时无法通知到您，请在下方填写您的邮箱，并点击确定更新信息！</p>
+                <input ref={(el)=>{this.oinput = el}} className="pop-conform-input"/>
+            </Modal>
         </div>
     }
 
@@ -147,8 +160,52 @@ export default class Index extends Component{
             longinUserInfo:props.userInfo,
             articleList:props.articleList,
             menu:props.menu,
-            openByPhone:props.openByPhone
+            openByPhone:props.openByPhone,
+            showMask:false
         }
+    }
+
+    closePop = ()=>{
+        this.setState({
+            showMask:false
+        });
+    }
+
+    showPop = ()=>{
+        this.setState({
+            showMask:true
+        });
+    }
+
+    handleOk = ()=>{
+        var {longinUserInfo} = this.state;
+        if(/.+@.+/.test(this.oinput.value)){
+            Axios({
+                url:"/api/updateEmail",
+                data:{
+                    email:this.oinput.value
+                }
+            }).then((result)=>{
+                notification.success({
+                    message: '提示',
+                    description: "邮箱更新成功^_^",
+                    duration: 1,
+                });
+                this.closePop();
+            });
+            
+        }else{
+            notification.error({
+                message: '提示',
+                description: "邮箱格式不正确！",
+                duration: 1,
+            });
+        }
+        //this.closePop();
+    }
+
+    handleCancel = ()=>{
+        this.closePop();
     }
 
     componentDidMount(){
@@ -165,6 +222,11 @@ export default class Index extends Component{
                     localStorage.setItem("userImInfo",JSON.stringify(result.data));
                 });
             });
+
+            var {longinUserInfo} = this.state;
+            if(!(longinUserInfo.email&&/.+@.+/.test(longinUserInfo.email))){
+                this.showPop();
+            }
         }
     }
 
