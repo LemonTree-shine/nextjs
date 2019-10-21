@@ -35,6 +35,31 @@ export default class MsgItem extends Component{
             </div>
         }
 
+        if(item.flow==="out"&&custom.type==="icon"){
+            return <div className="msg-item msg-out" key={item.idClient}>
+                <div className="text-pop">
+                    <svg className="icon" aria-hidden="true">
+                        <use xlinkHref={"#"+custom.data.content}></use>
+                    </svg>
+                </div>
+                <div className="msg-head">
+                    <img className="user-header" src={userInfo.avatar_url} alt=""/>
+                </div>
+            </div>
+        }
+        if(item.flow==="in"&&custom.type==="icon"){
+            return <div className="msg-item msg-in" key={item.idClient}>
+                <div className="msg-head">
+                    <img className="user-header" src={accountInfo.avatar_url} alt=""/>
+                </div>
+                <div className="text-pop">
+                    <svg className="icon" aria-hidden="true">
+                        <use xlinkHref={"#"+custom.data.content}></use>
+                    </svg>
+                </div>
+            </div>
+        }
+
         return null
     }
 }

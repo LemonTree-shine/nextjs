@@ -151,3 +151,17 @@ export function getUrlParams(href){
 
 export const inChatRoomWarning = "欢迎来到情感直播间，有什么问题尽情发问吧~~";
 
+
+export const iconFaceArr = [
+    "icon-a","icon-bizui","icon-baiyan","icon-aixin","icon-dajing","icon-ziya","icon-daxiao","icon-esi",
+    "icon-fadai","icon-fankun","icon-ganga","icon-fennu","icon-hanyan","icon-jingkong","icon-haochi","icon-emo",
+    "icon-jingsong","icon-jingya","icon-kaixin","icon-lengku","icon-danao","icon-liukoushui","icon-liulei","icon-mengbi",
+    "icon-mianwubiaoqing","icon-nanguo","icon-shuizhuo","icon-taoyan","icon-tanchi","icon-siliao","icon-tiaopi","icon-xiaochulei",
+    "icon-wuliao","icon-xingxingyan","icon-xieyan","icon-xiasi","icon-xiaolian","icon-ku","icon-shengqi","icon-yousiliao",
+    "icon-en","icon-bushufu","icon-bianbian","icon-fankun1","icon-feiwen","icon-ganmao","icon-huaixiao","icon-liuhan",
+    "icon-outu","icon-keshui","icon-renzhe","icon-santiaoxian","icon-guaiwu","icon-shoushang","icon-tianshi","icon-shuai",
+    "icon-xianwen","icon-xiaodiaodaya","icon-xiong","icon-yiwen","icon-yun","icon-liubixie","icon-shimo","icon-dianzan",
+    "icon-biti","icon-fendou","icon-huqi","icon-heng","icon-kulou","icon-leng","icon-taoyan1","icon-shuixing",
+    "icon-youling","icon-qie","icon-zhutou","icon-maren","icon-xinsui","icon-zhadan","icon-aixin1","icon-aini"
+];
+

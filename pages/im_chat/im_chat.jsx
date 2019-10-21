@@ -1,10 +1,11 @@
 import React,{ Component } from 'react';
-import {connentIm,getUrlParams,formatDate,inChatRoomWarning} from "../../common/util";
+import {connentIm,getUrlParams,formatDate,inChatRoomWarning,iconFaceArr} from "../../common/util";
 import MsgItem from "../../component/msgItem/msgItem";
 import Axios from "../../common/Axios";
 import {notification } from 'antd';
 import axios from "axios";
 import "./index.less";
+import IconList from "../../component/iconList/iconList"
 
 export default class Index extends Component{
     render(){
@@ -28,6 +29,16 @@ export default class Index extends Component{
                     onKeyUp={(e)=>{this.handleKeyUp(e)}}
                 />
                 <button onClick={this.sendText}>发送</button>
+                <div onClick={this.showIcon} style={{marginTop:"0.1rem",marginLeft: "0.12rem"}}>
+                    <svg className="icon" aria-hidden="true">
+                        <use xlinkHref={"#icon-shimo"}></use>
+                    </svg>
+                </div>
+                <IconList 
+                    iconList={iconFaceArr} 
+                    showFlag = {this.state.showFlag}
+                    clickIconFont = {this.clickIconFont}
+                />
             </div>
             
         </div>
@@ -58,7 +69,8 @@ export default class Index extends Component{
         this.state = {
             msgList:[], //消息列表
             userInfo:props.userInfo,  //登录的用户信息
-            accountInfo:{}   //对方的用户信息
+            accountInfo:{},   //对方的用户信息
+            showFlag:false
         }
         console.log(props);
     }
@@ -246,5 +258,34 @@ export default class Index extends Component{
     scrollToBottom = ()=>{
         var self = this;
         document.body.scrollTop=self.scrollMax;
+    }
+
+    //发送表情
+    clickIconFont = (link)=>{
+        console.log(link)
+        var custom = {
+            type:"icon",
+            data:{
+                content:link
+            }
+        }
+
+        this.sendCustomInfo(custom).then(()=>{
+            if(!sessionStorage.getItem("send_email")){
+                this.sendEmail();
+            }
+            this.scrollToBottom();
+        });
+
+        this.setState({
+            showFlag:false
+        });
+    }
+
+    showIcon = ()=>{
+        var {showFlag} = this.state;
+        this.setState({
+            showFlag:!showFlag
+        });
     }
 }
