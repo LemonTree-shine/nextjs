@@ -198,6 +198,24 @@ export default class Index extends Component{
         } 
     }
 
+    //判断是否需要发送一条时间消息
+    sendTimeInfo = (callback)=>{
+        var sortMsgList = this.state.msgList.sort(function(a,b){
+            return a.time-b.time
+        });
+        if(!sortMsgList.length||Date.now()-sortMsgList[sortMsgList.length-1].time>60*5*1000){
+            var custom = {
+                type:"time",
+                time:Date.now()
+            }
+            self.sendCustomInfo(custom).then(()=>{
+                callback();
+            });
+            return;
+        }
+        callback();
+    }
+
     sendEmail = ()=>{
         var {accountInfo} = this.state;
         if(accountInfo.email&&/.+@.+/.test(accountInfo.email)){
@@ -262,23 +280,24 @@ export default class Index extends Component{
 
     //发送表情
     clickIconFont = (link)=>{
-        console.log(link)
-        var custom = {
-            type:"icon",
-            data:{
-                content:link
+        this.sendTimeInfo(()=>{
+            var custom = {
+                type:"icon",
+                data:{
+                    content:link
+                }
             }
-        }
-
-        this.sendCustomInfo(custom).then(()=>{
-            if(!sessionStorage.getItem("send_email")){
-                this.sendEmail();
-            }
-            this.scrollToBottom();
-        });
-
-        this.setState({
-            showFlag:false
+    
+            this.sendCustomInfo(custom).then(()=>{
+                if(!sessionStorage.getItem("send_email")){
+                    this.sendEmail();
+                }
+                this.scrollToBottom();
+            });
+    
+            this.setState({
+                showFlag:false
+            });
         });
     }
 
