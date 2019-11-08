@@ -426,7 +426,26 @@ common.use("/updateEmail",function(req,res){
             }));
             res.send(dataStr);
         }
-    })
+    });
+});
+
+//云医院埋点统计
+common.use("/reportForYunTai",function(req,res){
+    let params = JSON.parse(req.body);
+
+    var insertSql = `INSERT INTO report_yun 
+        (type,conType,name,yunId,environment,reportTime,source) 
+            VALUES 
+        ('${params.type}','${params.conType}','${params.name}','${params.yunId}','${params.environment}',${Date.now()},'${params.source||"weixin"}')`;
+
+    sqlPoor.query(insertSql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData());
+            res.send(dataStr);
+        }
+    });
 });
 
 
@@ -435,6 +454,9 @@ common.use("/manage",manage);
 
 //im相关的接口
 common.use("/im",IM);
+
+
+
 
 
 module.exports = common;
