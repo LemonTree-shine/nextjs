@@ -431,7 +431,13 @@ common.use("/updateEmail",function(req,res){
 
 //云医院埋点统计
 common.use("/reportForYunTai",function(req,res){
-    let params = JSON.parse(req.body);
+
+    let params;
+    if(typeof req.body==="object"){
+        params = req.body;
+    }else{
+        params = JSON.parse(req.body);
+    }
 
     var insertSql = `INSERT INTO report_yun 
         (type,conType,name,yunId,environment,reportTime,source) 
