@@ -454,6 +454,20 @@ common.use("/reportForYunTai",function(req,res){
     });
 });
 
+common.use("/getReportData",function(req,res){
+    
+    var querySql = `SELECT * FROM report_yun`;
+
+    sqlPoor.query(querySql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData("0","查询成功",{data}));
+            res.send(dataStr);
+        }
+    });
+});
+
 
 //管理平台的接口
 common.use("/manage",manage);
