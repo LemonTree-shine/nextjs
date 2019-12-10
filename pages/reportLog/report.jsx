@@ -11,31 +11,34 @@ export default class Index extends Component{
         return <div className="reportLog">
             <div className="form">
                 <div className="item-group">
-                    <label>选择月份：</label>
+                    <label>环境：</label>
                     <div className="input-box">
-                        <Select defaultValue="1" onChange={this.handleChange} style={{ width: "100%" }}>
-                            <Option value="1">1</Option>
-                            <Option value="2">2</Option>
-                            <Option value="3">3</Option>
-                            <Option value="4">4</Option>
-                            <Option value="5">5</Option>
-                            <Option value="6">6</Option>
-                            <Option value="7">7</Option>
-                            <Option value="8">8</Option>
-                            <Option value="9">9</Option>
-                            <Option value="10">10</Option>
-                            <Option value="11">11</Option>
-                            <Option value="12">12</Option>
+                        <Select defaultValue="expectant" onChange={this.handleChange} style={{ width: "100%" }}>
+                            <Option value="expectant">预发</Option>
+                            <Option value="production">生产</Option>
                         </Select>
                     </div>
                 </div>
                 <div className="item-group">
+                    <label>订单类型：</label>
+                    <div className="input-box">
+                        <Select defaultValue="all" onChange={this.changeType} style={{ width: "100%" }}>
+                            <Option value="all">全部</Option>
+                            <Option value="PHOTO_TEXT">专家问诊</Option>
+                            <Option value="TRIAGE_CONSULT">免费咨询</Option>
+                            <Option value="REVISIT">线上复诊</Option>
+                            <Option value="OLT">线上诊疗</Option>
+                            <Option value="INTERNET_TREATMENT">互联网诊疗</Option>
+                            <Option value="INTERPRET_REPORT">报告单解读</Option>
+                        </Select>
+                    </div>
+                </div>
+                {/* <div className="item-group">
                     <label></label>
                     <div className="input-box">
                         <Button type="primary">查询</Button>
                     </div>
-                    
-                </div>
+                </div> */}
             </div>
             <div className="echart" id="echart" ref={(el)=>{this.echartInit = el}}></div>
         </div>
@@ -56,22 +59,44 @@ export default class Index extends Component{
     constructor(){
         super();
         this.myEchart = "";
+        this.searchData = {}
     }
 
     componentDidMount(){
-        console.log(this.props.reportData.data.data);
+        this.myEchart = echarts.init(this.echartInit);
         this.initEchartFn();
     }
 
     handleChange = (e)=>{
-        console.log(e)
+        this.searchData.environment = e;
+
+        var option = this.resetData(this.searchData);
+        this.myEchart.setOption(option);
+    }
+
+    changeType = (consType)=>{
+        this.searchData.consType = consType;
+
+        var option = this.resetData(this.searchData);
+        this.myEchart.setOption(option);
     }
 
     //初始化图标
     initEchartFn = ()=>{
+        var option = this.resetData({});
+        this.myEchart.setOption(option);
+    }
+
+    resetData = (searchData)=>{
         //im相关订单数据统计
         var im_chat_data = this.props.reportData.data.data.filter((item)=>{
-            return item.environment==="expectant"
+            var ENV = searchData.environment || "expectant";
+            var consType = searchData.consType;
+            if(!consType||consType==="all"){
+                return item.environment===ENV;
+            }else{
+                return item.environment===ENV&&item.conType===consType;
+            }
         });
         var month = new Date().getMonth()+1;
         var seriesData = [];
@@ -87,12 +112,9 @@ export default class Index extends Component{
             seriesData[index] = seriesData[index]+1;
         });
 
-        this.myEchart = echarts.init(this.echartInit);
-        
-        
         var option = {
             legend: {
-                data: ['下单次数'],
+                data: ['im所有问诊下单次数'],
                 align: 'left'
             },
             tooltip: {},
@@ -105,14 +127,14 @@ export default class Index extends Component{
                 name:"数量"
             },
             series: [{
-                name: '下单次数',
+                name: 'im所有问诊下单次数',
                 symbolSize: 6,
                 type: 'line',
                 data: seriesData
             }]
         };
 
-        this.myEchart.setOption(option);
+        return option;
     }
     
 }
