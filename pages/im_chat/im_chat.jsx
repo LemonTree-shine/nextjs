@@ -200,6 +200,7 @@ export default class Index extends Component{
 
     //判断是否需要发送一条时间消息
     sendTimeInfo = (callback)=>{
+        var self = this;
         var sortMsgList = this.state.msgList.sort(function(a,b){
             return a.time-b.time
         });
