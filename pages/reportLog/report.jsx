@@ -102,7 +102,7 @@ export default class Index extends Component{
         var seriesData = [];
         seriesData.length = month;
         
-        for(let i = 0;i<month;i++){
+        for(let i = 0;i<12;i++){
             seriesData[i] = 0;
         }
 
