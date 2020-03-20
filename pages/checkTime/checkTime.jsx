@@ -28,11 +28,38 @@ export default class ChecTime extends Component{
         super();
         this.state = {
             holidayList:[{
+                name:"清明",
+                time:"2020-04-04"
+            },{
                 name:"五一",
                 time:"2020-05-01"
             },{
-                name:"国庆",
+                name:"青年",
+                time:"2020-05-04"
+            },{
+                name:"端午节",
+                time:"2020-06-25"
+            },{
+                name:"八一建军节",
+                time:"2020-08-01"
+            },{
+                name:"七夕",
+                time:"2020-08-25"
+            },{
+                name:"抗日战争纪念日",
+                time:"2020-09-03"
+            },{
+                name:"国庆·中秋",
                 time:"2020-10-01"
+            },{
+                name:"重阳节",
+                time:"2020-10-25"
+            },{
+                name:"冬至",
+                time:"2020-12-21"
+            },{
+                name:"圣诞",
+                time:"2020-12-25"
             },{
                 name:"元旦",
                 time:"2021-01-01"
