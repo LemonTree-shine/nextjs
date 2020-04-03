@@ -32,7 +32,7 @@ export default class ChecTime extends Component{
                 time:"2020-04-04 00:00:00"
             },{
                 name:"五一",
-                time:"2020-05-01 00:00:00"
+                time:"2020-04-30 17:30:00"
             },{
                 name:"青年",
                 time:"2020-05-04 00:00:00"
