@@ -38,7 +38,7 @@ export default class ChecTime extends Component{
                 time:"2020-05-04 00:00:00"
             },{
                 name:"端午节",
-                time:"2020-06-25 00:00:00"
+                time:"2020-06-24 15:30:00"
             },{
                 name:"八一建军节",
                 time:"2020-08-01 00:00:00"
