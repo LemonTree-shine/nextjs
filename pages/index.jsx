@@ -83,8 +83,9 @@ export default class Index extends Component{
                             推荐文章
                         </div>
                         <div className="article-tool-box">
-                            <a className="list" title="浏览器渲染机制" href="https://www.jianshu.com/p/b22ff1771225">浏览器渲染机制</a>
-                            <a className="list" title="nodejs开发微信公众号" href="https://juejin.im/post/5be3af8ae51d4554b54b0a0d">nodejs开发微信公众号</a>
+                            {this.state.recommendMenu.map((item,index)=>{
+                                return <a className="list" key={item.id} title={item.name} href={item.linkUrl}>{item.name}</a>
+                            })}
                         </div>
                     </div>
                 </div>
@@ -133,6 +134,14 @@ export default class Index extends Component{
             }
         });
 
+        //获取推荐文章列表
+        var recommendMenu =  await axios.post("/api/manage/getManageMenu",{
+            type:"recommend"
+        },{
+            headers:{
+                "Content-Type":"text/plain; charset=utf-8",
+            }
+        });
 
         var returnData = {
             pathname:req.url,  //获取当前路径用于选中菜单
@@ -141,7 +150,8 @@ export default class Index extends Component{
                 return article.type==="1"
             }),
             menu:menu.data.data,
-            openByPhone:ifOpenByPhone(req.headers["user-agent"])
+            openByPhone:ifOpenByPhone(req.headers["user-agent"]),
+            recommendMenu:recommendMenu.data.data
         };
 
         if(info.data.code=="0"){
@@ -161,8 +171,10 @@ export default class Index extends Component{
             articleList:props.articleList,
             menu:props.menu,
             openByPhone:props.openByPhone,
+            recommendMenu:props.recommendMenu,
             showMask:false
         }
+        console.log(props);
     }
 
     closePop = ()=>{

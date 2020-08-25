@@ -12,20 +12,7 @@ var manage = express.Router();
 //链接数据库
 let sqlPoor = config.connecMysql();
 
-//处理post传过来的数据
-//config.setPostConfig(manage);
-
-//处理cookie
-//manage.use(cookieParser());
-
-//处理session
-// manage.use(session({
-//     name:"Login_session",
-//     secret:"chenze",
-//     maxAge: 24*60 * 1000 * 30,
-//     signed:true,
-// }));
-
+//获取首页的菜单
 manage.use("/getMenu",function(req,res){
     var params = JSON.parse(req.body);
     console.log(req.session.loginName);
@@ -44,6 +31,71 @@ manage.use("/getMenu",function(req,res){
         
     });
 });
+
+//获取管理平台的菜单
+manage.use("/getManageMenu",function(req,res){
+    var params = JSON.parse(req.body);
+    var Sql = `SELECT * FROM manage_menu`;
+    if(params.type==="recommend"){
+        //推荐列表文章
+        Sql = `SELECT * FROM mamage_recommend_menu`;
+    }
+    console.log(req.session.loginName);
+    sqlPoor.query(Sql,(err,data)=>{
+        if(err) console.log(err);
+        if(data.length){
+            res.send(JSON.stringify(config.okData("0","成功",data)));
+        }else{
+            res.send(JSON.stringify(config.notLoginData())); 
+        }
+        
+    });
+});
+
+//添加菜单
+manage.use("/addManageMenu",function(req,res){
+    var params = JSON.parse(req.body);
+    var Sql = `INSERT INTO manage_menu (linkUrl,name) VALUES ('${params.linkUrl}','${params.name}')`;
+    if(params.type==="recommend"){
+        //添加推荐文章
+        Sql = `INSERT INTO mamage_recommend_menu (linkUrl,name,read_num) VALUES ('${params.linkUrl}','${params.name}',0)`;
+    }
+    sqlPoor.query(Sql,(err,data)=>{
+        if(err) console.log(err);
+        res.send(JSON.stringify(config.okData("0","添加成功",data)));
+    });
+});
+
+//编辑菜单
+manage.use("/editManageMenu",function(req,res){
+    var params = JSON.parse(req.body);
+    var Sql = `UPDATE manage_menu SET linkUrl = '${params.linkUrl}' , name = '${params.name}' WHERE id = ${params.id}`;
+    if(params.type==="recommend"){
+        //编辑推荐文章
+        Sql = `UPDATE mamage_recommend_menu SET linkUrl = '${params.linkUrl}' , name = '${params.name}' WHERE id = ${params.id}`;
+    }
+    sqlPoor.query(Sql,(err,data)=>{
+        if(err) console.log(err);
+        res.send(JSON.stringify(config.okData("0","编辑成功",data)));
+    });
+});
+
+//删除菜单
+manage.use("/deleteManageMenu",function(req,res){
+    var params = JSON.parse(req.body);
+    var Sql = `DELETE FROM manage_menu WHERE id = ${params.id}`;
+    if(params.type==="recommend"){
+        //删除推荐文章
+        Sql = `DELETE FROM mamage_recommend_menu WHERE id = ${params.id}`;
+    }
+    sqlPoor.query(Sql,(err,data)=>{
+        if(err) console.log(err);
+        res.send(JSON.stringify(config.okData("0","删除成功",data)));
+    });
+});
+
+
+
 
 
 module.exports = manage;

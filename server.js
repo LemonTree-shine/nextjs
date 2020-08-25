@@ -6,6 +6,8 @@ var path = require("path");
 //接口路由配置
 var common = require("./server/router/common");
 
+var {configProxy} = require("./proxyConfig");   //转发配置文件
+
 //判断环境
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -19,6 +21,9 @@ const handle = app.getRequestHandler()
 //起一个express服务器，用于接入next和请求接口
 const server = express();
 
+//开启代理
+// configProxy(server);
+
 //next处理托管到express端
 app.prepare().then(function(req,res){
     
@@ -28,6 +33,7 @@ app.prepare().then(function(req,res){
 }).catch((ex) => {
     console.error(ex.stack)
 });
+
 
 
 //处理路由请求等问题
