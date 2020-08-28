@@ -2,6 +2,9 @@ var express = require("express");
 var next = require("next");
 var fs = require("fs");
 var path = require("path");
+const cookieParser = require("cookie-parser"); //读取cookie
+const session = require('express-session');
+var config = require("./server/serverConfig");
 
 //接口路由配置
 var common = require("./server/router/common");
@@ -21,8 +24,7 @@ const handle = app.getRequestHandler()
 //起一个express服务器，用于接入next和请求接口
 const server = express();
 
-//开启代理
-// configProxy(server);
+
 
 //next处理托管到express端
 app.prepare().then(function(req,res){
@@ -47,6 +49,30 @@ function startServer(req,res){
 
         res.send(htmlContent.toString());
     });
+
+    //处理post传过来的数据
+    // config.setPostConfig(server);
+
+    // //处理cookie
+    // server.use(cookieParser());
+
+    // //处理session
+    // server.use(session({
+    //     name:"Login_session",
+    //     secret:"chenze",
+    //     maxAge: 24*60 * 1000 * 30,
+    //     resave:true,
+    //     saveUninitialized:true,
+    //     signed:true,
+    // }));
+
+    //所有路由都走这边，以后便于做拦截处理
+    server.use(function(req,res,next){
+        next();   
+    });
+
+    //开启代理
+    configProxy(server);
 
     /**
      * 接口处理统一url加上/api 

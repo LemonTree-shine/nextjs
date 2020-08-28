@@ -12,10 +12,21 @@ var manage = express.Router();
 //链接数据库
 let sqlPoor = config.connecMysql();
 
+//判断是否登录
+manage.use("/ifLogin",function(req,res){
+    var loginName = req.session.loginName;
+    if(!loginName){
+        res.send(JSON.stringify(config.notLoginData())); 
+    }else{
+        res.send(JSON.stringify(config.okData("0","已登录",{
+            loginName 
+        })));
+    }
+});
+
 //获取首页的菜单
 manage.use("/getMenu",function(req,res){
     var params = JSON.parse(req.body);
-    console.log(req.session.loginName);
     if(params.admin=="1"){
         var Sql = `SELECT * FROM menu`;
     }else{
@@ -40,7 +51,6 @@ manage.use("/getManageMenu",function(req,res){
         //推荐列表文章
         Sql = `SELECT * FROM mamage_recommend_menu`;
     }
-    console.log(req.session.loginName);
     sqlPoor.query(Sql,(err,data)=>{
         if(err) console.log(err);
         if(data.length){
