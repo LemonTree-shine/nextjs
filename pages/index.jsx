@@ -84,7 +84,16 @@ export default class Index extends Component{
                         </div>
                         <div className="article-tool-box">
                             {this.state.recommendMenu.map((item,index)=>{
-                                return <a className="list" key={item.id} title={item.name} href={item.linkUrl}>{item.name}</a>
+                                return <a 
+                                    className="list" 
+                                    key={item.id} 
+                                    title={item.name} 
+                                    href={item.linkUrl}
+                                    onClick={(e)=>{
+                                        e.preventDefault();
+                                        this.onPage(item);
+                                    }}
+                                >{item.name}</a>
                             })}
                         </div>
                     </div>
@@ -288,5 +297,17 @@ export default class Index extends Component{
     //跳转到阅读文章页面
     toArticlePage = (id)=>{
         window.location = "/article/"+id
+    }
+
+    //点击推荐文章跳转
+    onPage = (item)=>{
+        Axios({
+            url:"/api/addReadNum",
+            data:{
+                id:item.id
+            }
+        });
+
+        window.location.href = item.linkUrl;
     }
 }

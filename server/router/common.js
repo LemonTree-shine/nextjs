@@ -428,6 +428,7 @@ common.use("/reportForYunTai",function(req,res){
     });
 });
 
+//获取云医院埋点数据
 common.use("/getReportData",function(req,res){
     
     var querySql = `SELECT * FROM report_yun`;
@@ -442,6 +443,23 @@ common.use("/getReportData",function(req,res){
     });
 });
 
+//点击次数记录功能
+common.use("/addReadNum",function(req,res){
+    let params = JSON.parse(req.body);
+
+    var sql = `UPDATE mamage_recommend_menu SET read_num = (mamage_recommend_menu.read_num+1) WHERE id = ${params.id}`;
+
+    sqlPoor.query(sql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData("0","成功",{
+                data
+            }));
+            res.send(dataStr);
+        }
+    });
+});
 
 //管理平台的接口
 common.use("/manage",manage);
