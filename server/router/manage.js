@@ -68,7 +68,7 @@ manage.use("/addManageMenu",function(req,res){
     var Sql = `INSERT INTO manage_menu (linkUrl,name) VALUES ('${params.linkUrl}','${params.name}')`;
     if(params.type==="recommend"){
         //添加推荐文章
-        Sql = `INSERT INTO mamage_recommend_menu (linkUrl,name,read_num) VALUES ('${params.linkUrl}','${params.name}',0)`;
+        Sql = `INSERT INTO mamage_recommend_menu (linkUrl,name,read_num,type) VALUES ('${params.linkUrl}','${params.name}',0,${params.menuType||1})`;
     }
     sqlPoor.query(Sql,(err,data)=>{
         if(err) console.log(err);
@@ -82,7 +82,7 @@ manage.use("/editManageMenu",function(req,res){
     var Sql = `UPDATE manage_menu SET linkUrl = '${params.linkUrl}' , name = '${params.name}' WHERE id = ${params.id}`;
     if(params.type==="recommend"){
         //编辑推荐文章
-        Sql = `UPDATE mamage_recommend_menu SET linkUrl = '${params.linkUrl}' , name = '${params.name}' WHERE id = ${params.id}`;
+        Sql = `UPDATE mamage_recommend_menu SET linkUrl = '${params.linkUrl}' , name = '${params.name}',type = ${params.menuType} WHERE id = ${params.id}`;
     }
     sqlPoor.query(Sql,(err,data)=>{
         if(err) console.log(err);

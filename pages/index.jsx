@@ -68,13 +68,21 @@ export default class Index extends Component{
                             学习网站
                         </div>
                         <div className="learn-tool-box">
-                            <a className="list" href="http://nodejs.cn/">Node</a>
-                            <a className="list" href="https://www.webpackjs.com/">webpack</a>
-                            <a className="list" href="https://reactjs.org/">react</a>
-                            <a className="list" href="https://cn.vuejs.org/">vue</a>
-                            <a className="list" href="https://juejin.im/">掘金</a>
-                            <a className="list" href="https://www.jianshu.com/">简书</a>
-                            <a className="list" href="http://nextjs.frontendx.cn/">next.js</a>
+                            {this.state.recommendMenu.map((item,index)=>{
+                                if(item.type===2){
+                                    return <a 
+                                        className="list" 
+                                        key={item.id} 
+                                        title={item.name} 
+                                        href={item.linkUrl}
+                                        onClick={(e)=>{
+                                            e.preventDefault();
+                                            this.onPage(item);
+                                        }}
+                                    >{item.name}</a>
+                                }
+                                
+                            })}
                         </div>
                     </div>
 
@@ -84,16 +92,19 @@ export default class Index extends Component{
                         </div>
                         <div className="article-tool-box">
                             {this.state.recommendMenu.map((item,index)=>{
-                                return <a 
-                                    className="list" 
-                                    key={item.id} 
-                                    title={item.name} 
-                                    href={item.linkUrl}
-                                    onClick={(e)=>{
-                                        e.preventDefault();
-                                        this.onPage(item);
-                                    }}
-                                >{item.name}</a>
+                                if(item.type===1){
+                                    return <a 
+                                        className="list" 
+                                        key={item.id} 
+                                        title={item.name} 
+                                        href={item.linkUrl}
+                                        onClick={(e)=>{
+                                            e.preventDefault();
+                                            this.onPage(item);
+                                        }}
+                                    >{item.name}</a>
+                                }
+                                
                             })}
                         </div>
                     </div>
