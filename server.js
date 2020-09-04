@@ -5,6 +5,7 @@ var path = require("path");
 const cookieParser = require("cookie-parser"); //读取cookie
 const session = require('express-session');
 var config = require("./server/serverConfig");
+var compression = require('compression')
 
 //接口路由配置
 var common = require("./server/router/common");
@@ -65,6 +66,7 @@ function startServer(req,res){
     //     saveUninitialized:true,
     //     signed:true,
     // }));
+    server.use(compression())
 
     //所有路由都走这边，以后便于做拦截处理
     server.use(function(req,res,next){
