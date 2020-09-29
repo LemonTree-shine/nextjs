@@ -65,7 +65,7 @@ manage.use("/getManageMenu",function(req,res){
 //添加菜单
 manage.use("/addManageMenu",function(req,res){
     var params = JSON.parse(req.body);
-    var Sql = `INSERT INTO manage_menu (linkUrl,name) VALUES ('${params.linkUrl}','${params.name}')`;
+    var Sql = `INSERT INTO manage_menu (linkUrl,name,icon) VALUES ('${params.linkUrl}','${params.name}','${params.icon}')`;
     if(params.type==="recommend"){
         //添加推荐文章
         Sql = `INSERT INTO mamage_recommend_menu (linkUrl,name,read_num,type) VALUES ('${params.linkUrl}','${params.name}',0,${params.menuType||1})`;
@@ -79,7 +79,7 @@ manage.use("/addManageMenu",function(req,res){
 //编辑菜单
 manage.use("/editManageMenu",function(req,res){
     var params = JSON.parse(req.body);
-    var Sql = `UPDATE manage_menu SET linkUrl = '${params.linkUrl}' , name = '${params.name}' WHERE id = ${params.id}`;
+    var Sql = `UPDATE manage_menu SET linkUrl = '${params.linkUrl}' , name = '${params.name}' , icon = '${params.icon}' WHERE id = ${params.id}`;
     if(params.type==="recommend"){
         //编辑推荐文章
         Sql = `UPDATE mamage_recommend_menu SET linkUrl = '${params.linkUrl}' , name = '${params.name}',type = ${params.menuType} WHERE id = ${params.id}`;
@@ -104,7 +104,15 @@ manage.use("/deleteManageMenu",function(req,res){
     });
 });
 
-
+//配置主题功能
+manage.use("/setTheme",function(req,res){
+    var params = JSON.parse(req.body);
+    var Sql = `UPDATE user_info SET theme = '${params.theme}' WHERE id = ${params.id}`;
+    sqlPoor.query(Sql,(err,data)=>{
+        if(err) console.log(err);
+        res.send(JSON.stringify(config.okData("0","设置成功",data)));
+    });
+});
 
 
 
