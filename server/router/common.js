@@ -20,23 +20,31 @@ var common = express.Router();
  common.use(cookieParser());
 
  //处理session
- common.use(function(req,res,next){
-    //  let host = req.headers.host;
-    //  if(/xiaogangji\.com/.test(host)){
-    //     host = ".xiaogangji.com"
-    //  }
-    session({
-        name:"Login_session",
-        secret:"chenze",
-        maxAge: 24*60 * 1000 * 30,
-        resave:true,
-        // cookie:{
-        //     domain:host
-        // },
-        saveUninitialized:true,
-        signed:true,
-    })(req,res,next)
- });
+//  common.use(function(req,res,next){
+//     //  let host = req.headers.host;
+//     //  if(/xiaogangji\.com/.test(host)){
+//     //     host = ".xiaogangji.com"
+//     //  }
+//     session({
+//         name:"Login_session",
+//         secret:"chenze",
+//         maxAge: 24*60 * 1000 * 30,
+//         resave:true,
+//         // cookie:{
+//         //     domain:host
+//         // },
+//         saveUninitialized:true,
+//         signed:true,
+//     })(req,res,next)
+//  });
+common.use(session({
+    name:"Login_session",
+    secret:"chenze",
+    maxAge: 24*60 * 1000 * 30,
+    resave:true,
+    saveUninitialized:true,
+    signed:true,
+}));
 
 //链接数据库
 let sqlPoor = config.connecMysql();
