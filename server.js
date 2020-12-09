@@ -5,7 +5,11 @@ var path = require("path");
 const cookieParser = require("cookie-parser"); //读取cookie
 const session = require('express-session');
 var config = require("./server/serverConfig");
-var compression = require('compression')
+var compression = require('compression');
+var ioFn = require("./server/socketIo");
+let http = require('http');
+
+const sio = require('socket.io')
 
 //接口路由配置
 var common = require("./server/router/common");
@@ -23,7 +27,8 @@ var app = next({dev});
 const handle = app.getRequestHandler()
 
 //起一个express服务器，用于接入next和请求接口
-const server = express();
+let server = express();
+let httpServer = http.createServer(server);
 
 
 
@@ -99,13 +104,18 @@ function startServer(req,res){
         handle(req,res);
     });
 
-
     //启动80端口
-    server.listen("80",function(err){
+    httpServer.listen("80",function(err){
         if(err){
             console.log(err)
         }
         console.log("server run at:localhost:80");
-    })  
+    });
+
+    //创建io实例
+    let io = sio(httpServer);
+    
+    //处理实时数据交互
+    ioFn(io);
 }
 
