@@ -1,14 +1,15 @@
-import {Component} from "react";
+import React,{Component} from "react";
 import "./socket.less";
 import io from 'socket.io-client';
 
-export default class Index extends Component{
+export default class SocketIo extends Component{
     render(){
         return <div className="socket_page">
             <button onClick={this.runCode}>运行</button>
             <div className="layout_page">
+                {/* 代码输入框 */}
                 <pre 
-                    className="code_wrap" 
+                    className="code_wrap edit" 
                     contentEditable={true}
                     ref={(el)=>{this.editWrap = el}}
                     onInput={()=>{
@@ -18,6 +19,7 @@ export default class Index extends Component{
                         });
                     }}
                 ></pre>
+                {/* 结果展示框 */}
                 <div 
                     className="code_wrap"
                     ref={(el)=>{
@@ -150,4 +152,11 @@ export default class Index extends Component{
         }
     }
 
+}
+
+
+class A extends Component{
+    render(){
+        return <div>123123123</div>
+    }
 }
