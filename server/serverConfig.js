@@ -23,15 +23,26 @@ exports.setPostConfig = function(app){
 //服务器数据库配置
 exports.connecMysql  = function(){
     return mysql.createPool({
-        host            : '47.105.42.195',
+        host            : 'sh-cynosdbmysql-grp-0zvpp24a.sql.tencentcdb.com',
         user            : 'root',
-        password        : '123456',
+        password        : 'wscz1993...',
         database        : 'bloc_center',
+        port:'22669',
         multipleStatements: true,
         connectionLimit: 100,
         connectTimeout: 60 * 60 * 1000,
         acquireTimeout: 60 * 60 * 1000,
     });
+    // return mysql.createPool({
+    //     host            : '47.105.42.195',
+    //     user            : 'root',
+    //     password        : '123456',
+    //     database        : 'bloc_center',
+    //     multipleStatements: true,
+    //     connectionLimit: 100,
+    //     connectTimeout: 60 * 60 * 1000,
+    //     acquireTimeout: 60 * 60 * 1000,
+    // });
 }
 
 //github登录id,密匙数据
