@@ -68,13 +68,21 @@ export default class Index extends Component{
                             学习网站
                         </div>
                         <div className="learn-tool-box">
-                            <a className="list" href="http://nodejs.cn/">Node</a>
-                            <a className="list" href="https://www.webpackjs.com/">webpack</a>
-                            <a className="list" href="https://reactjs.org/">react</a>
-                            <a className="list" href="https://cn.vuejs.org/">vue</a>
-                            <a className="list" href="https://juejin.im/">掘金</a>
-                            <a className="list" href="https://www.jianshu.com/">简书</a>
-                            <a className="list" href="http://nextjs.frontendx.cn/">next.js</a>
+                            {this.state.recommendMenu.map((item,index)=>{
+                                if(item.type===2){
+                                    return <a 
+                                        className="list" 
+                                        key={item.id} 
+                                        title={item.name} 
+                                        href={item.linkUrl}
+                                        onClick={(e)=>{
+                                            e.preventDefault();
+                                            this.onPage(item);
+                                        }}
+                                    >{item.name}</a>
+                                }
+                                
+                            })}
                         </div>
                     </div>
 
@@ -83,8 +91,21 @@ export default class Index extends Component{
                             推荐文章
                         </div>
                         <div className="article-tool-box">
-                            <a className="list" title="浏览器渲染机制" href="https://www.jianshu.com/p/b22ff1771225">浏览器渲染机制</a>
-                            <a className="list" title="nodejs开发微信公众号" href="https://juejin.im/post/5be3af8ae51d4554b54b0a0d">nodejs开发微信公众号</a>
+                            {this.state.recommendMenu.map((item,index)=>{
+                                if(item.type===1){
+                                    return <a 
+                                        className="list" 
+                                        key={item.id} 
+                                        title={item.name} 
+                                        href={item.linkUrl}
+                                        onClick={(e)=>{
+                                            e.preventDefault();
+                                            this.onPage(item);
+                                        }}
+                                    >{item.name}</a>
+                                }
+                                
+                            })}
                         </div>
                     </div>
                 </div>
@@ -133,6 +154,14 @@ export default class Index extends Component{
             }
         });
 
+        //获取推荐文章列表
+        var recommendMenu =  await axios.post("/api/manage/getManageMenu",{
+            type:"recommend"
+        },{
+            headers:{
+                "Content-Type":"text/plain; charset=utf-8",
+            }
+        });
 
         var returnData = {
             pathname:req.url,  //获取当前路径用于选中菜单
@@ -141,7 +170,8 @@ export default class Index extends Component{
                 return article.type==="1"
             }),
             menu:menu.data.data,
-            openByPhone:ifOpenByPhone(req.headers["user-agent"])
+            openByPhone:ifOpenByPhone(req.headers["user-agent"]),
+            recommendMenu:recommendMenu.data.data
         };
 
         if(info.data.code=="0"){
@@ -161,8 +191,10 @@ export default class Index extends Component{
             articleList:props.articleList,
             menu:props.menu,
             openByPhone:props.openByPhone,
+            recommendMenu:props.recommendMenu,
             showMask:false
         }
+        console.log(props);
     }
 
     closePop = ()=>{
@@ -276,5 +308,17 @@ export default class Index extends Component{
     //跳转到阅读文章页面
     toArticlePage = (id)=>{
         window.location = "/article/"+id
+    }
+
+    //点击推荐文章跳转
+    onPage = (item)=>{
+        Axios({
+            url:"/api/addReadNum",
+            data:{
+                id:item.id
+            }
+        });
+
+        window.location.href = item.linkUrl;
     }
 }

@@ -13,16 +13,30 @@ var fs = require('fs');
 
 var common = express.Router();
 
-//处理post传过来的数据
-config.setPostConfig(common);
+ //处理post传过来的数据
+ config.setPostConfig(common);
 
-//链接数据库
-let sqlPoor = config.connecMysql();
+ //处理cookie
+ common.use(cookieParser());
 
-//处理cookie
-common.use(cookieParser());
-
-//处理session
+ //处理session
+//  common.use(function(req,res,next){
+//     //  let host = req.headers.host;
+//     //  if(/xiaogangji\.com/.test(host)){
+//     //     host = ".xiaogangji.com"
+//     //  }
+//     session({
+//         name:"Login_session",
+//         secret:"chenze",
+//         maxAge: 24*60 * 1000 * 30,
+//         resave:true,
+//         // cookie:{
+//         //     domain:host
+//         // },
+//         saveUninitialized:true,
+//         signed:true,
+//     })(req,res,next)
+//  });
 common.use(session({
     name:"Login_session",
     secret:"chenze",
@@ -32,10 +46,8 @@ common.use(session({
     signed:true,
 }));
 
-//所有路由都走这边，以后便于做拦截处理
-common.use(function(req,res,next){
-    next();   
-})
+//链接数据库
+let sqlPoor = config.connecMysql();
 
 //获取登录信息
 common.use("/getUserInfo",function(req,res){
@@ -124,8 +136,6 @@ common.use("/getToken",function(requestBody,res){
 
 //存稿文章
 common.use("/publishArticle",function(req,res){
-    //console.log(req.session.loginName)
-    //console.log(JSON.parse(req.body));
     if(!req.session.loginName){
         res.send(JSON.stringify(config.notLoginData())); 
         return;
@@ -148,16 +158,7 @@ common.use("/publishArticle",function(req,res){
                 if(err){
                     res.send(JSON.stringify(config.serverErr(err)));
                 }else{
-                    res.send(JSON.stringify(config.okData("0","成功",{data:"发布成功"})));
-                    return;
-                    fs.writeFile(`${config.articlePath}/${String(time)}.md`,content,(err)=>{
-                        if(err){
-                            res.send(JSON.stringify(config.serverErr(err)));
-                        }else{
-                            res.send(JSON.stringify(config.okData("0","成功",{data:"发布成功"})));
-                        }
-                    })
-                    
+                    res.send(JSON.stringify(config.okData("0","成功",{data:"发布成功"})));   
                 }
                 
             })
@@ -286,16 +287,6 @@ common.use("/deleteArticle",function(req,res){
         }else{
             var dataStr = JSON.stringify(config.okData("0","删除成功",{}));
             res.send(dataStr);
-            return;
-            var filePath = config.articlePath+"/"+params.filename+".md";
-            fs.unlink(filePath,(err)=>{
-                if(err){
-                    res.send(JSON.stringify(config.serverErr(err)));
-                }else{
-                    var dataStr = JSON.stringify(config.okData("0","删除成功",{}));
-                    res.send(dataStr);
-                }
-            });
         }
     });
 });
@@ -454,6 +445,7 @@ common.use("/reportForYunTai",function(req,res){
     });
 });
 
+//获取云医院埋点数据
 common.use("/getReportData",function(req,res){
     
     var querySql = `SELECT * FROM report_yun`;
@@ -468,6 +460,23 @@ common.use("/getReportData",function(req,res){
     });
 });
 
+//点击次数记录功能
+common.use("/addReadNum",function(req,res){
+    let params = JSON.parse(req.body);
+
+    var sql = `UPDATE mamage_recommend_menu SET read_num = (mamage_recommend_menu.read_num+1) WHERE id = ${params.id}`;
+
+    sqlPoor.query(sql,(err,data)=>{
+        if(err){
+            res.send(JSON.stringify(config.serverErr(err)));
+        }else{
+            var dataStr = JSON.stringify(config.okData("0","成功",{
+                data
+            }));
+            res.send(dataStr);
+        }
+    });
+});
 
 //管理平台的接口
 common.use("/manage",manage);
